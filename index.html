@@ -1,0 +1,2593 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G🛒RANDMARKET</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; }
+:root { --bg: #14082b; --bg2: #1c0d3d; --card: #26134d; --card-hover: #321a61; --border: #3d2178; --accent: #a855f7; --accent-hover: #c084fc; --accent2: #ec4899; --text: #ffffff; --text2: #b9a8db; --gray: #7a68a0; --gold: #fbbf24; --red: #ef4444; --green: #10b981; --blue: #3b82f6; }
+body.light { --bg: #f7f2fc; --bg2: #efe5fa; --card: #ffffff; --card-hover: #f5ecfd; --border: #e2d3f4; --text: #1a0b2e; --text2: #6b4d8c; --gray: #9683b8; }
+body { background: var(--bg); color: var(--text); padding-bottom: 75px; min-height: 100vh; font-size: 14px; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes glow { 0%, 100% { box-shadow: 0 0 10px rgba(168,85,247,0.5); } 50% { box-shadow: 0 0 25px rgba(168,85,247,0.9); } }
+@keyframes popIn { 0% { opacity: 0; transform: scale(0.85); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes bounceIn { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.05); } 70% { transform: scale(0.95); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+.header { background: var(--bg2); padding: 10px 14px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.logo-wrap { display: flex; align-items: center; gap: 8px; }
+.logo { font-size: 19px; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.help-btn { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 16px; font-weight: bold; animation: glow 2s infinite; }
+.header-actions { display: flex; gap: 6px; align-items: center; }
+.icon-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); min-width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 14px; padding: 0 10px; position: relative; }
+.icon-btn:hover { background: var(--card-hover); border-color: var(--accent); }
+.icon-btn span.badge { position: absolute; top: -3px; right: -3px; background: var(--accent); color: #fff; font-size: 9px; font-weight: bold; padding: 1px 5px; border-radius: 8px; }
+.search-box { display: flex; align-items: center; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; gap: 8px; }
+.search-box input { background: transparent; border: none; outline: none; color: var(--text); font-size: 13px; flex: 1; }
+.announce-bar { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1a0b2e; padding: 10px 14px; font-size: 13px; font-weight: 600; text-align: center; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.announce-bar img { max-height: 100px; border-radius: 8px; display: block; margin-top: 8px; }
+.section-title { display: flex; justify-content: space-between; align-items: center; padding: 0 16px; margin-bottom: 10px; margin-top: 8px; }
+.section-title h3 { font-size: 16px; }
+.section-count { font-size: 11px; color: var(--gray); background: var(--card); padding: 3px 8px; border-radius: 8px; }
+.server-block { padding: 0 14px 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.server-block select, .server-block input { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 10px; font-size: 12px; outline: none; }
+.server-block input { width: 100px; }
+.server-block button { background: var(--accent); color: #fff; border: none; padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: bold; cursor: pointer; }
+.cat-grid { padding: 0 14px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+@media (min-width: 700px) { .cat-grid { grid-template-columns: repeat(7, 1fr); } }
+.cat-tile { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 8px; cursor: pointer; text-align: center; }
+.cat-tile:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(168,85,247,0.3); }
+.cat-tile-emoji { font-size: 26px; margin-bottom: 6px; display: inline-block; }
+.cat-tile-name { font-size: 10px; font-weight: 600; }
+.price-filter { padding: 0 14px; margin-bottom: 12px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.price-filter input { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 10px; font-size: 12px; outline: none; width: 90px; }
+.price-filter button { background: var(--accent); color: #fff; border: none; padding: 8px 14px; border-radius: 10px; font-size: 11px; font-weight: bold; cursor: pointer; }
+.filters { padding: 0 14px; margin-bottom: 12px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.filter-btn { background: var(--card); border: 1px solid var(--border); color: var(--text2); padding: 6px 12px; border-radius: 10px; cursor: pointer; font-size: 11px; font-weight: 600; }
+.filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.online-toggle { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); cursor: pointer; }
+.products { padding: 0 14px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 600px) { .products { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 900px) { .products { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1200px) { .products { grid-template-columns: repeat(5, 1fr); } }
+.product-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; cursor: pointer; position: relative; animation: fadeIn 0.3s ease; }
+.product-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 12px 30px rgba(168,85,247,0.35); }
+.product-img { width: 100%; aspect-ratio: 1; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; position: relative; }
+.product-img img { width: 100%; height: 100%; object-fit: cover; }
+.product-img .photo-count { position: absolute; bottom: 6px; right: 6px; background: rgba(0,0,0,0.7); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 8px; }
+.product-img .boost-badge { position: absolute; top: 6px; left: 6px; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; font-size: 10px; font-weight: bold; padding: 3px 8px; border-radius: 8px; animation: pulse 1.5s infinite; }
+.product-info { padding: 8px; }
+.product-title { font-size: 11px; font-weight: 600; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.product-price { font-size: 13px; font-weight: bold; color: var(--accent); margin-bottom: 4px; }
+.product-price .old-price { color: var(--gray); text-decoration: line-through; font-size: 11px; font-weight: normal; margin-right: 4px; }
+.product-price .discount-pct { color: var(--red); font-size: 10px; font-weight: bold; margin-left: 4px; }
+.product-seller { font-size: 9px; color: var(--gray); }
+.product-rating { color: var(--gold); font-size: 10px; margin-top: 3px; }
+.product-server { font-size: 9px; color: var(--accent2); margin-top: 2px; }
+.fav-btn { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.6); border: none; color: #fff; font-size: 14px; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; z-index: 2; }
+.bottom-nav { position: fixed; bottom: 10px; left: 10px; right: 10px; background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; display: flex; justify-content: space-around; padding: 6px; z-index: 200; }
+.nav-item { background: transparent; border: none; color: var(--gray); display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 8px; border-radius: 10px; cursor: pointer; position: relative; }
+.nav-item.active { background: var(--accent); color: #fff; }
+.nav-icon { font-size: 16px; }
+.nav-label { font-size: 9px; }
+.nav-item span.badge { position: absolute; top: 2px; right: 4px; background: var(--accent2); color: #fff; font-size: 9px; font-weight: bold; padding: 1px 5px; border-radius: 8px; }
+.modal { display: none; position: fixed; inset: 0; background: rgba(10,5,25,0.8); z-index: 300; align-items: center; justify-content: center; padding: 16px; }
+.modal.active { display: flex; }
+.modal.active .modal-content { animation: popIn 0.3s; }
+.modal-content { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; width: 100%; max-width: 480px; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; }
+.modal-header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.modal-header h3 { font-size: 15px; }
+.close-btn { background: transparent; border: none; color: var(--text2); font-size: 16px; cursor: pointer; padding: 2px 6px; border-radius: 6px; }
+.modal-body { padding: 16px; overflow-y: auto; font-size: 13px; }
+.modal-body label { display: block; font-size: 11px; color: var(--text2); margin-bottom: 4px; margin-top: 10px; }
+.modal-body label:first-child { margin-top: 0; }
+.modal-body input, .modal-body textarea, .modal-body select { width: 100%; background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 10px; font-size: 13px; outline: none; font-family: inherit; }
+.modal-body textarea { min-height: 70px; resize: vertical; }
+.modal-footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
+.auth-tabs { display: flex; gap: 6px; padding: 12px 16px 0; }
+.auth-tab { flex: 1; padding: 8px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text2); font-weight: 600; cursor: pointer; font-size: 12px; }
+.auth-tab.active { background: var(--accent); color: #fff; }
+.hint { font-size: 11px; color: var(--gold); background: rgba(251,191,36,0.1); border-left: 3px solid var(--gold); padding: 8px 10px; border-radius: 6px; margin-top: 6px; }
+.nick-status { font-size: 11px; margin-top: 4px; }
+.nick-status.ok { color: var(--green); }
+.nick-status.bad { color: var(--red); }
+.btn-primary { background: var(--accent); color: #fff; border: none; padding: 10px 18px; border-radius: 10px; font-weight: bold; font-size: 12px; cursor: pointer; }
+.btn-primary:disabled { opacity: 0.5; }
+.btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); padding: 10px 18px; border-radius: 10px; font-weight: bold; font-size: 12px; cursor: pointer; }
+.btn-danger { background: var(--red); color: #fff; border: none; padding: 10px 18px; border-radius: 10px; font-weight: bold; font-size: 12px; cursor: pointer; }
+.btn-success { background: var(--green); color: #fff; border: none; padding: 10px 18px; border-radius: 10px; font-weight: bold; font-size: 12px; cursor: pointer; }
+.profile-header { padding: 12px; }
+.balance-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+.balance-left { display: flex; align-items: center; gap: 12px; }
+.balance-icon { font-size: 26px; }
+.balance-info { display: flex; flex-direction: column; }
+.balance-label { font-size: 11px; color: var(--gray); }
+.balance-amount { font-size: 18px; font-weight: bold; }
+.balance-arrow { font-size: 20px; color: var(--gray); }
+.withdraw-pending { background: rgba(251,191,36,0.15); border: 1px solid var(--gold); border-radius: 12px; padding: 12px; margin-top: 8px; }
+.withdraw-pending .row { display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px; }
+.profile-info-block { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin: 12px; }
+.profile-info-top { display: flex; align-items: center; gap: 14px; }
+.profile-avatar-big { font-size: 56px; width: 64px; height: 64px; border-radius: 50%; overflow: hidden; background: var(--bg2); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink:0; }
+.profile-avatar-big img { width: 100%; height: 100%; object-fit: cover; }
+.profile-info-main { flex: 1; }
+.profile-nickname { font-size: 17px; font-weight: bold; margin-bottom: 2px; }
+.profile-stars { color: var(--gold); font-size: 13px; }
+.profile-stars .count { color: var(--text2); font-size: 11px; margin-left: 4px; }
+.profile-joined { font-size: 11px; color: var(--gray); margin-top: 4px; }
+.online-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+.online-dot.on { background: var(--green); }
+.online-dot.off { background: var(--gray); }
+.verified-badge { display:inline-block; color: #3b82f6; margin-left:4px; font-weight:bold; }
+.profile-tabs { display: flex; gap: 8px; padding: 0 12px; margin-bottom: 8px; overflow-x: auto; scrollbar-width: none; }
+.profile-tabs::-webkit-scrollbar { display: none; }
+.profile-tab { flex-shrink: 0; padding: 8px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text2); font-size: 12px; font-weight: 600; cursor: pointer; }
+.profile-tab.active { background: var(--accent); color: #fff; }
+.profile-subtabs { display: flex; gap: 8px; padding: 0 12px; margin-bottom: 12px; overflow-x: auto; scrollbar-width: none; }
+.profile-subtabs::-webkit-scrollbar { display: none; }
+.profile-subtab { flex-shrink: 0; padding: 6px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text2); font-size: 11px; font-weight: 600; cursor: pointer; }
+.profile-subtab.active { background: var(--accent); color: #fff; }
+.profile-empty { text-align: center; padding: 40px 20px; color: var(--text2); }
+.profile-empty-emoji { font-size: 50px; margin-bottom: 12px; }
+.profile-empty-title { font-size: 17px; font-weight: bold; color: var(--text); margin-bottom: 6px; }
+.login-info { background: rgba(168, 85, 247, 0.1); border: 1px solid var(--accent); border-radius: 12px; padding: 12px; margin-bottom: 12px; font-size: 12px; }
+.login-info-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; gap:8px; }
+.login-info-label { color: var(--text2); }
+.login-info-value { font-weight: bold; color: var(--text); font-family: monospace; flex:1; word-break:break-all; }
+.warning-box { background: rgba(251, 191, 36, 0.15); border: 1px solid var(--gold); border-radius: 12px; padding: 12px; font-size: 12px; line-height: 1.6; margin-bottom: 12px; }
+.warning-box b { color: var(--gold); }
+.commission-box { background: rgba(16,185,129,0.15); border: 1px solid var(--green); border-radius: 12px; padding: 12px; font-size: 12px; line-height: 1.8; margin-bottom: 12px; }
+.commission-box b { color: var(--green); }
+.requisites { background: var(--bg2); border-radius: 12px; padding: 12px; font-size: 12px; line-height: 1.8; margin-bottom: 12px; }
+.copy-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; gap:8px; }
+.copy-btn { background: var(--accent); color: #fff; border: none; padding: 4px 10px; border-radius: 6px; font-size: 10px; cursor: pointer; font-weight: bold; }
+.cart-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12px; }
+.cart-item-title { font-size: 12px; font-weight: 600; margin-bottom: 3px; }
+.cart-item-price { font-size: 11px; color: var(--accent); font-weight: bold; }
+.cart-remove { background: var(--red); border: none; color: #fff; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 11px; }
+.cart-btn { background: var(--card-hover); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 11px; margin-left: 4px; }
+.empty-state { text-align: center; padding: 40px 16px; color: var(--text2); grid-column: 1/-1; font-size: 13px; }
+.empty-state .icon { font-size: 48px; margin-bottom: 10px; opacity: 0.5; }
+.photos-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 10px; }
+.photo-slot { aspect-ratio: 1; border-radius: 10px; background: var(--bg2); border: 2px dashed var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; position: relative; font-size: 20px; color: var(--gray); }
+.photo-slot.filled { border-style: solid; border-color: var(--accent); }
+.photo-slot img { width: 100%; height: 100%; object-fit: cover; }
+.photo-slot .remove-photo { position: absolute; top: 2px; right: 2px; background: rgba(239,68,68,0.9); color: #fff; border: none; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; cursor: pointer; }
+.gallery { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0; scrollbar-width: none; }
+.gallery::-webkit-scrollbar { display: none; }
+.gallery img { height: 60px; width: 60px; border-radius: 10px; object-fit: cover; flex-shrink: 0; cursor: pointer; border: 2px solid transparent; }
+.gallery img.active { border-color: var(--accent); }
+.gallery-main { width: 100%; height: 220px; border-radius: 12px; object-fit: cover; background: var(--bg2); }
+.help-content { font-size: 13px; line-height: 1.7; }
+.help-content h4 { color: var(--accent); font-size: 14px; margin: 16px 0 8px; }
+.help-content h4:first-child { margin-top: 0; }
+.help-content p { margin-bottom: 10px; color: var(--text2); }
+.help-content .step { background: var(--card); border-left: 3px solid var(--accent); padding: 10px 14px; border-radius: 8px; margin-bottom: 10px; }
+.help-content ul { margin-left: 18px; margin-bottom: 10px; color: var(--text2); }
+.help-content li { margin-bottom: 4px; }
+.chat-list-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; margin-bottom: 8px; cursor: pointer; display: flex; gap: 10px; align-items: center; position: relative; }
+.chat-list-avatar { font-size: 32px; width: 36px; height: 36px; border-radius: 50%; overflow: hidden; background: var(--bg2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.chat-list-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.chat-list-info { flex: 1; min-width:0; }
+.chat-list-name { font-weight: bold; font-size: 13px; margin-bottom: 2px; }
+.chat-list-msg { font-size: 11px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chat-list-status { font-size: 10px; color: var(--gold); margin-top: 3px; }
+.deal-header { background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+.deal-title { font-size: 13px; font-weight: bold; color: #fff; margin-bottom: 4px; }
+.deal-price { font-size: 18px; font-weight: bold; color: #fff; }
+.deal-timer { font-size: 11px; color: rgba(255,255,255,0.9); margin-top: 6px; }
+.deal-status { font-size: 11px; color: #fff; background: rgba(0,0,0,0.3); padding: 3px 8px; border-radius: 8px; display: inline-block; margin-top: 6px; }
+.chat-messages { max-height: 320px; overflow-y: auto; padding: 8px; background: var(--bg2); border-radius: 10px; margin-bottom: 10px; }
+.chat-msg { padding: 8px 12px; border-radius: 12px; margin-bottom: 6px; max-width: 80%; font-size: 12px; word-wrap: break-word; }
+.chat-msg.me { background: var(--accent); color: #fff; margin-left: auto; }
+.chat-msg.them { background: var(--card); color: var(--text); }
+.chat-msg.sys { background: rgba(251, 191, 36, 0.15); color: var(--gold); text-align: center; margin: 8px auto; font-size: 11px; max-width: 90%; border: 1px solid var(--gold); white-space: pre-wrap; }
+.chat-msg img { max-width: 100%; border-radius: 8px; margin-top: 4px; display: block; }
+.chat-msg .msg-time { font-size: 9px; opacity: 0.7; margin-top: 3px; display: block; }
+.deal-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.chat-attach-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 10px; cursor: pointer; font-size: 16px; }
+.avatar-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin: 10px 0; }
+.avatar-option { font-size: 24px; padding: 8px; text-align: center; background: var(--card); border-radius: 10px; cursor: pointer; border: 2px solid transparent; }
+.avatar-option.selected { border-color: var(--accent); }
+.toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 10px; max-width: 90%; }
+.toast { padding: 14px 22px; border-radius: 12px; color: #fff; font-weight: 600; font-size: 13px; animation: bounceIn 0.4s; min-width: 260px; text-align: center; }
+.toast.success { background: linear-gradient(135deg, #10b981, #059669); }
+.toast.error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.toast.warning { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1a0b2e; }
+.toast.info { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.screen { animation: fadeIn 0.3s ease; }
+.loading-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
+.loading-spinner { width: 50px; height: 50px; border: 4px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
+.notif-item { display:flex; align-items:flex-start; gap:8px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:10px; margin-bottom:8px; font-size:12px; }
+.notif-item input { width:auto; margin-top:3px; }
+.notif-item .text { flex:1; }
+.notif-item .date { font-size:10px; color:var(--gray); margin-top:4px; }
+.spec-field { background:var(--card); border-radius:10px; padding:8px 10px; margin-bottom:6px; font-size:12px; }
+.spec-field .lbl { color:var(--gray); font-size:10px; }
+.spec-field .val { color:var(--text); font-weight:600; margin-top:2px; word-break:break-word; }
+.achievement { display:inline-flex; align-items:center; gap:6px; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:6px 10px; margin:4px; font-size:11px; }
+.achievement.got { border-color: var(--gold); background: rgba(251,191,36,0.1); }
+.safety-list { background:var(--card); border-radius:10px; padding:10px; margin-top:10px; font-size:12px; line-height:1.8; }
+.safety-list .item { color: var(--text2); }
+</style>
+</head><body>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div style="color: var(--text2);">Загрузка...</div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<header class="header" id="mainHeader" style="display:none;">
+  <div class="header-top">
+    <div class="logo-wrap">
+      <div class="logo">G🛒RANDMARKET</div>
+      <button class="help-btn" onclick="openHelp()">!</button>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="toggleTheme()">🌙</button>
+      <button class="icon-btn" onclick="openCart()">🛒<span class="badge" id="cartCount">0</span></button>
+      <button class="icon-btn" onclick="openAuthOrProfile()"><span id="userLabel">👤 Войти</span></button>
+    </div>
+  </div>
+  <div class="search-box">
+    <span>🔍</span>
+    <input type="text" id="searchInput" placeholder="Поиск товаров" oninput="filterProducts()">
+  </div>
+</header>
+
+<div class="announce-bar" id="announceBar"></div>
+
+<div id="catalogStart" class="screen" style="display:none;">
+  <div class="section-title"><h3>🎮 Сервер</h3><span class="section-count" id="serverLabel">Все сервера</span></div>
+  <div class="server-block">
+    <select id="serverSelect" onchange="selectServerFromSelect()"><option value="">Все сервера</option></select>
+    <input type="number" id="serverSearch" placeholder="Поиск №" oninput="searchServer()">
+    <button onclick="resetServer()">Сброс</button>
+  </div>
+  <div class="section-title"><h3>📂 Категории</h3></div>
+  <div class="cat-grid">
+    <div class="cat-tile" onclick="openCategory('all')"><div class="cat-tile-emoji">🌐</div><div class="cat-tile-name">Все</div></div>
+    <div class="cat-tile" onclick="openCategory('accounts')"><div class="cat-tile-emoji">🎮</div><div class="cat-tile-name">Аккаунты</div></div>
+    <div class="cat-tile" onclick="openCategory('virts')"><div class="cat-tile-emoji">💰</div><div class="cat-tile-name">Вирты</div></div>
+    <div class="cat-tile" onclick="openCategory('coins')"><div class="cat-tile-emoji">🪙</div><div class="cat-tile-name">Коины</div></div>
+    <div class="cat-tile" onclick="openCategory('items')"><div class="cat-tile-emoji">🎨</div><div class="cat-tile-name">Предметы</div></div>
+    <div class="cat-tile" onclick="openCategory('services')"><div class="cat-tile-emoji">🤝</div><div class="cat-tile-name">Услуги</div></div>
+    <div class="cat-tile" onclick="openCategory('obzvony')"><div class="cat-tile-emoji">📞</div><div class="cat-tile-name">Обзвоны</div></div>
+    <div class="cat-tile" onclick="openCategory('boosts')"><div class="cat-tile-emoji">🚀</div><div class="cat-tile-name">Буст</div></div>
+  </div>
+  <div class="section-title"><h3>🔥 Новые товары</h3><span class="section-count" id="newCount">0</span></div>
+  <section class="products" id="newProductsGrid"></section>
+</div>
+
+<div id="catalogView" class="screen" style="display:none;">
+  <div class="section-title"><button class="btn-secondary" onclick="backToCatalogStart()">← Каталог</button><span class="section-count" id="catalogCount">0</span></div>
+  <div class="section-title"><h3 id="catalogTitle">Товары</h3></div>
+  <div class="price-filter">
+    <input type="number" id="priceMin" placeholder="от">
+    <span>—</span>
+    <input type="number" id="priceMax" placeholder="до">
+    <button onclick="applyPriceFilter()">Применить</button>
+    <button onclick="resetPriceFilter()" style="background: var(--card); color: var(--text);">Сброс</button>
+  </div>
+  <div class="filters">
+    <button class="filter-btn active" onclick="setSort('new', this)">🆕 Новые</button>
+    <button class="filter-btn" onclick="setSort('cheap', this)">💸 Дешевле</button>
+    <button class="filter-btn" onclick="setSort('expensive', this)">💎 Дороже</button>
+    <label class="online-toggle"><input type="checkbox" id="onlineOnly" onchange="renderCategoryProducts()"> Только онлайн</label>
+  </div>
+  <section class="products" id="productsGrid"></section>
+</div>
+
+<div id="chatsScreen" class="screen" style="display:none;">
+  <div class="section-title"><h3>💬 Сообщения</h3></div>
+  <div id="chatsList" style="padding: 0 12px;"></div>
+</div>
+
+<div id="chatViewScreen" class="screen" style="display:none;">
+  <div class="section-title"><button class="btn-secondary" onclick="backToChats()">← Назад</button></div>
+  <div style="padding: 0 12px;">
+    <div id="chatDealHeader"></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div style="display: flex; gap: 6px;">
+      <button class="chat-attach-btn" onclick="document.getElementById('chatImgInput').click()">📎</button>
+      <input type="file" id="chatImgInput" accept="image/*" style="display:none;" onchange="onChatImg(this)">
+      <input type="text" id="chatInput" placeholder="Сообщение..." style="flex: 1; background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 10px; font-size: 13px; outline: none;">
+      <button class="btn-primary" onclick="sendChatMessage()">→</button>
+    </div>
+    <div class="deal-actions" id="chatDealActions"></div>
+  </div>
+</div>
+
+<div id="favoritesScreen" class="screen" style="display:none;">
+  <div class="section-title"><button class="btn-secondary" onclick="backToCatalog()">← Назад</button><h3>❤ Избранное</h3></div>
+  <section class="products" id="favoritesGrid"></section>
+</div>
+
+<div id="adminScreen" class="screen" style="display:none;">
+  <div class="section-title"><button class="btn-secondary" onclick="backToProfile()">← Назад</button><h3>👑 Админка</h3></div>
+  <div id="adminContent" style="padding: 0 12px;"></div>
+</div>
+
+<div id="profileScreen" class="screen" style="display:none;">
+  <div class="profile-header">
+    <div class="balance-card" onclick="toggleBalanceMenu()">
+      <div class="balance-left"><div class="balance-icon">💳</div><div class="balance-info"><div class="balance-label">Баланс</div><div class="balance-amount" id="pBalance">0 ₽</div></div></div>
+      <div class="balance-arrow">›</div>
+    </div>
+    <div id="balanceActions" style="display: none; margin-top: 8px; grid-template-columns: 1fr 1fr; gap: 8px;">
+      <button class="btn-success" onclick="openDepositInstructions()" style="padding: 12px;">💳 Пополнить</button>
+      <button class="btn-primary" onclick="openWithdrawForm()" style="padding: 12px;">💸 Выплата</button>
+    </div>
+    <div id="pendingWithdrawBlock"></div>
+  </div>
+  <div class="profile-info-block">
+    <div class="profile-info-top">
+      <div class="profile-avatar-big" id="pAvatar" onclick="openAvatarPicker()">😎</div>
+      <div class="profile-info-main">
+        <div class="profile-nickname" id="pNick">—</div>
+        <div class="profile-stars" id="pStars">Нет отзывов</div>
+        <div class="profile-joined" id="pJoined">—</div>
+      </div>
+      <button class="icon-btn" onclick="openNotifications()" style="min-width:44px;height:44px;font-size:20px;position:relative;">🔔<span class="badge" id="notifCount" style="display:none;">0</span></button>
+    </div>
+  </div>
+  <div class="profile-tabs">
+    <button class="profile-tab active" onclick="switchProfileTab('products', this)">📦 Товары</button>
+    <button class="profile-tab" onclick="switchProfileTab('purchases', this)">📥 Покупки</button>
+    <button class="profile-tab" onclick="switchProfileTab('sales', this)">💵 Продажи</button>
+    <button class="profile-tab" onclick="switchProfileTab('friends', this)">👥 Друзья</button>
+    <button class="profile-tab" onclick="switchProfileTab('subs', this)">❤ Подписки</button>
+    <button class="profile-tab" onclick="switchProfileTab('blacklist', this)">🚫 ЧС</button>
+  </div>
+  <div class="profile-subtabs" id="profileSubTabs">
+    <button class="profile-subtab active" onclick="switchProfileSubTab('active', this)">Активные</button>
+    <button class="profile-subtab" onclick="switchProfileSubTab('process', this)">🔄 В процессе</button>
+    <button class="profile-subtab" onclick="switchProfileSubTab('done', this)">✅ Завершённые</button>
+  </div>
+  <div id="profileAchievements" style="padding: 0 12px 8px;"></div>
+  <div id="profileContent" style="padding: 0 12px;"></div>
+  <div style="padding: 12px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+      <button class="btn-secondary" onclick="changeNick()">✏ Ник</button>
+      <button class="btn-secondary" onclick="changeServer()">🎮 Сервер</button>
+      <button class="btn-secondary" onclick="openAvatarPicker()">😎 Аватар</button>
+      <button class="btn-secondary" onclick="toggleTheme()">🎨 Тема</button>
+      <button class="btn-secondary" onclick="openMyProducts()">📦 Товары</button>
+      <button class="btn-secondary" onclick="openFavorites()">❤ Избранное</button>
+      <button class="btn-secondary" onclick="openReferral()">🎁 Рефералы</button>
+      <button class="btn-secondary" onclick="openMyNotifs()">🔔 Уведомления</button>
+      <button class="btn-secondary" onclick="toggleSound()">🔊 Звук: <span id="soundState">вкл</span></button>
+      <button class="btn-secondary" onclick="openBanAppeal()">📝 Апелляция</button>
+    </div>
+    <div class="login-info" style="margin-top: 15px;">
+      <h4 style="font-size: 13px; color: var(--accent); margin-bottom: 8px;">📧 Мой аккаунт</h4>
+      <div class="login-info-row"><span class="login-info-label">Email:</span><span class="login-info-value" id="liEmail">—</span></div>
+      <div class="login-info-row"><span class="login-info-label">Ник:</span><span class="login-info-value" id="liNick">—</span></div>
+      <div class="login-info-row"><span class="login-info-label">Реф. код:</span><span class="login-info-value" id="liRef">—</span><button class="copy-btn" onclick="copyRefCode()">📋</button></div>
+    </div>
+    <div style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-top: 12px;">
+      <h4 style="font-size: 13px; color: var(--accent); margin-bottom: 8px;">📞 Поддержка</h4>
+      <div style="font-size: 13px; line-height: 1.8;">Открой чат «Поддержка» в разделе 💬 Сообщения</div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px;">
+      <button class="btn-danger" onclick="logout()">🚪 Выйти</button>
+      <button class="btn-danger" onclick="deleteAccount()">🗑 Удалить</button>
+    </div>
+  </div>
+</div>
+
+<div id="publicProfileScreen" class="screen" style="display:none;">
+  <div class="section-title"><button class="btn-secondary" onclick="backFromPublicProfile()">← Назад</button></div>
+  <div class="profile-info-block">
+    <div class="profile-info-top">
+      <div class="profile-avatar-big" id="pubAvatar">😎</div>
+      <div class="profile-info-main">
+        <div class="profile-nickname" id="pubNick">—</div>
+        <div class="profile-stars" id="pubStars">Нет отзывов</div>
+        <div class="profile-joined" id="pubJoined">—</div>
+      </div>
+    </div>
+    <div style="margin-top: 12px; font-size: 12px; color: var(--text2);">
+      <div>Сервер: <b id="pubServer" style="color: var(--text);">—</b></div>
+      <div style="margin-top:6px;">Продаж: <b id="pubSales" style="color: var(--text);">0</b> · Покупок: <b id="pubBuys" style="color: var(--text);">0</b></div>
+      <div style="margin-top:6px;">Последний онлайн: <b id="pubLastSeen" style="color: var(--text);">—</b></div>
+    </div>
+    <div id="pubActions" style="display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap;"></div>
+  </div>
+  <div class="profile-tabs">
+    <button class="profile-tab active" onclick="switchPubTab('products', this)">📦 Товары</button>
+    <button class="profile-tab" onclick="switchPubTab('reviews', this)">⭐ Отзывы</button>
+  </div>
+  <section class="products" id="pubProductsGrid"></section>
+  <div id="pubReviews" style="padding: 0 12px; display:none;"></div>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="navTo('catalog', this)"><span class="nav-icon">📂</span><span class="nav-label">Каталог</span></button>
+  <button class="nav-item" onclick="navTo('sell', this)"><span class="nav-icon">➕</span><span class="nav-label">Продать</span></button>
+  <button class="nav-item" onclick="navTo('chats', this)"><span class="nav-icon">💬</span><span class="nav-label">Чаты</span><span class="badge" id="chatBadge" style="display:none;">0</span></button>
+  <button class="nav-item" onclick="navTo('favorites', this)"><span class="nav-icon">❤</span><span class="nav-label">Избранное</span></button>
+  <button class="nav-item" onclick="navTo('profile', this)"><span class="nav-icon">👤</span><span class="nav-label">Профиль</span></button>
+</nav>
+
+<div class="modal" id="helpModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>📖 Правила маркетплейса</h3><button class="close-btn" onclick="closeModal('helpModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="help-content">
+        <h4>🏠 О маркетплейсе</h4>
+        <p>GRANDMARKET — торговая площадка для игровых товаров: аккаунты, вирты, коины, предметы и услуги. Все сделки защищены системой заморозки средств.</p>
+        <h4>💰 Комиссия сервиса</h4>
+        <div class="step">Комиссия — <b>15%</b> от суммы сделки.<br>Пример: продал за 1000₽ → получишь <b>850₽</b>. Продал за 100₽ → получишь <b>85₽</b>.<br>Минимальная цена товара — <b>90₽</b>.</div>
+        <h4>🎮 Аккаунты</h4>
+        <div class="step">⚠ При продаже аккаунта <b>продавец предоставляет полный доступ</b> (email, пароль и все данные).<br>Покупатель получает полные права на аккаунт.<br>Данные передаются <b>только в чате сделки</b> после покупки.<br>За обман — <b>бан навсегда</b>.</div>
+        <h4>💰 Вирты и коины</h4>
+        <div class="step">Вирты передаются без входа в аккаунт — продавец переводит их на игровой ник покупателя.</div>
+        <h4>🎨 Предметы</h4>
+        <div class="step">Продавец описывает предмет: название, редкость, сервер.<br>Передача через игровую торговлю.</div>
+        <h4>💬 Сделки и заморозка</h4>
+        <div class="step">При покупке деньги <b>замораживаются</b> на 3 дня.<br>• Если продавец передал → покупатель подтвердил → деньги уходят продавцу.<br>• Если продавец не передал за 3 дня → деньги возвращаются покупателю.<br>• Если продавец передал, покупатель молчит 3 дня → деньги продавцу.<br>• Оба подтвердили → сразу.</div>
+        <h4>💳 Пополнение</h4>
+        <div class="step">Минимум — <b>100₽</b>. Перевод по реквизитам админа.<br>Зачисление: обычно <b>10 минут</b>, максимум <b>24 часа</b>.</div>
+        <h4>💸 Вывод</h4>
+        <div class="step">Минимум — <b>100₽</b>. Комиссия — <b>10%</b>.<br>Пример: выводишь 1000₽ → получаешь 900₽.<br>Деньги списываются только после одобрения админом.<br>Обработка в течение <b>24 часов</b>.</div>
+        <h4>🚀 Буст товара</h4>
+        <div class="step">Стоимость — <b>50₽</b>. Товар в топ каталога на <b>24 часа</b>.</div>
+        <h4>⭐ Отзывы</h4>
+        <div class="step">После завершённой сделки покупатель может оставить отзыв 1-5 звёзд.<br>Отзывы видны в публичном профиле.</div>
+        <h4>⚠ Споры</h4>
+        <div class="step">Если что-то не так — нажми «⚠ Проблема» в чате сделки.<br>Админ рассмотрит спор.</div>
+        <h4>🎁 Рефералы</h4>
+        <div class="step">Пригласи друга по своей ссылке.<br>Друг получит <b>+25₽</b> сразу при регистрации.<br>Ты получишь <b>+50₽</b> когда друг пополнит баланс от 100₽ (один раз).</div>
+        <h4>🚫 Запрещено</h4>
+        <ul>
+          <li>Обман покупателей и продавцов</li>
+          <li>Продажа несуществующих товаров</li>
+          <li>Обход системы заморозки</li>
+          <li>Мультиаккаунты для мошенничества</li>
+          <li>Оскорбления в чатах</li>
+        </ul>
+        <h4>📞 Поддержка</h4>
+        <div class="step">Открой чат «Поддержка» в 💬 Сообщения.<br>Отвечаем в течение 1-6 часов.</div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn-primary" onclick="closeModal('helpModal')">Понятно!</button></div>
+  </div>
+</div>
+
+<div class="modal" id="authModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3 id="authTitle">Вход</h3><button class="close-btn" onclick="closeModal('authModal')">✕</button></div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="switchAuth('login')">Вход</button>
+      <button class="auth-tab" id="tabRegister" onclick="switchAuth('register')">Регистрация</button>
+    </div>
+    <div class="modal-body">
+      <label>Email</label><input type="email" id="authEmail" autocomplete="off" placeholder="you@mail.ru">
+      <label>Пароль (минимум 6 символов)</label><input type="password" id="authPass" autocomplete="new-password">
+      <div id="registerFields" style="display:none;">
+        <label>Ник (видят другие)</label><input type="text" id="authNick" oninput="checkNickAvailability()">
+        <div id="nickStatus" class="nick-status"></div>
+        <label>Номер сервера (1-38)</label><input type="number" id="authServer" value="1" min="1" max="38">
+        <label>Имя (как на карте)</label><input type="text" id="authRealName">
+        <label>Реферальный код (если есть)</label><input type="text" id="authRef" placeholder="необязательно">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('authModal')">Отмена</button>
+      <button class="btn-primary" id="authSubmit" onclick="doAuth()">Войти</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="avatarModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>😎 Аватар</h3><button class="close-btn" onclick="closeModal('avatarModal')">✕</button></div>
+    <div class="modal-body">
+      <label>Готовые иконки</label>
+      <div class="avatar-grid" id="avatarGrid"></div>
+      <label style="margin-top: 15px;">Или загрузите своё фото</label>
+      <button class="btn-secondary" onclick="document.getElementById('avatarUpload').click()" style="width: 100%;">📷 Загрузить</button>
+      <input type="file" id="avatarUpload" accept="image/*" style="display:none;" onchange="uploadAvatar(this)">
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="sellModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>➕ Продать</h3><button class="close-btn" onclick="closeModal('sellModal')">✕</button></div>
+    <div class="modal-body">
+      <label>Фото (1-5 штук)</label>
+      <div class="photos-grid" id="photosGrid"></div>
+      <input type="file" id="imgInput" accept="image/*" multiple style="display:none;" onchange="onImagesPicked()">
+      <label>Название</label><input type="text" id="sellTitle">
+      <label>Описание</label><textarea id="sellDesc"></textarea>
+      <label>Цена (₽, минимум 90)</label><input type="number" id="sellPrice" min="90" oninput="updateSellCommission()">
+      <div id="sellCommissionInfo" class="hint">Введите цену — покажем комиссию.</div>
+      <label>Старая цена (для скидки, необязательно)</label><input type="number" id="sellOldPrice" min="90">
+      <label>Категория</label>
+      <select id="sellCategory" onchange="onSellCategoryChange()">
+        <option value="accounts">🎮 Аккаунты</option>
+        <option value="virts">💰 Вирты</option>
+        <option value="coins">🪙 Гранд Коины</option>
+        <option value="items">🎨 Предметы</option>
+        <option value="services">🤝 Услуги</option>
+        <option value="obzvony">📞 Обзвоны</option>
+        <option value="boosts">🚀 Буст</option>
+      </select>
+      <div class="warning-box" id="sellWarning" style="display:none;"></div>
+      <label>Сервер (1-38)</label><input type="number" id="sellServer" value="1" min="1" max="38">
+      <div id="sellSpecFields"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('sellModal')">Отмена</button>
+      <button class="btn-primary" onclick="publishProduct()">Опубликовать</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="boostModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>🚀 Буст</h3><button class="close-btn" onclick="closeModal('boostModal')">✕</button></div>
+    <div class="modal-body">
+      <p id="boostTarget" style="margin-bottom: 12px;"></p>
+      <div class="warning-box"><b>🚀 Буст товара</b><br>Стоимость: <b>50 ₽</b><br>Товар в топ каталога на 24 часа.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('boostModal')">Отмена</button>
+      <button class="btn-primary" onclick="confirmBoost()">🚀 За 50 ₽</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="cartModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>🛒 Корзина</h3><button class="close-btn" onclick="closeModal('cartModal')">✕</button></div>
+    <div class="modal-body" id="cartBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="notifModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>🔔 Уведомления</h3><button class="close-btn" onclick="closeModal('notifModal')">✕</button></div>
+    <div class="modal-body">
+      <div id="notifBody"></div>
+      <div style="display:flex;gap:6px;margin-top:10px;">
+        <button class="btn-secondary" style="flex:1;" onclick="deleteSelectedNotifs()">🗑 Удалить выбранные</button>
+        <button class="btn-danger" style="flex:1;" onclick="clearAllNotifs()">🗑 Очистить всё</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="productModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3 id="pvTitle">Товар</h3><button class="close-btn" onclick="closeModal('productModal')">✕</button></div>
+    <div class="modal-body" id="productViewBody"></div>
+    <div class="modal-footer" id="productViewFooter"></div>
+  </div>
+</div>
+
+<div class="modal" id="depositModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>💳 Пополнение</h3><button class="close-btn" onclick="closeModal('depositModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="warning-box"><b>⚠️ ВНИМАНИЕ!</b><br>Переведите деньги <b>строго по реквизитам ниже</b> — на карту администратора.<br>После перевода нажмите «Я перевёл».<br>Зачисление: обычно <b>10 минут</b>, максимум <b>24 часа</b>.<br>Если через 24 часа не пришло — напишите в поддержку.</div>
+      <div class="requisites">
+        <div class="copy-row"><span>💳 Сбер:</span><b>2202 2084 1617 4507</b><button class="copy-btn" onclick="copyText('2202208416174507')">📋</button></div>
+        <div class="copy-row"><span>👤 Получатель:</span><b>Егоров Е.</b></div>
+        <div class="copy-row"><span>📱 СБП:</span><b>+7 951 867 43 42</b><button class="copy-btn" onclick="copyText('+79518674342')">📋</button></div>
+      </div>
+      <label>Сумма (₽)</label><input type="number" id="depositSum">
+      <label>Имя отправителя (как в Сбере)</label><input type="text" id="depositSenderName">
+      <label>Комментарий (необязательно)</label><input type="text" id="depositComment">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('depositModal')">Отмена</button>
+      <button class="btn-primary" onclick="submitDeposit()">Я перевёл</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="withdrawModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>💸 Вывод</h3><button class="close-btn" onclick="closeModal('withdrawModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="warning-box"><b>💸 Вывод средств</b><br>Комиссия: <b>10%</b><br>Сумма при выводе: <b>минимум 100₽</b><br>Пример: выводишь 1000₽ → получишь 900₽. Выводишь 100₽ → получишь 90₽.<br>Деньги списываются только после одобрения администратором.</div>
+      <label>Сумма (₽)</label><input type="number" id="withdrawSum" oninput="updateWithdrawCommission()" min="100">
+      <div id="withdrawCommissionInfo" class="commission-box" style="display:none;"></div>
+      <label>Карта или телефон (СБП)</label><input type="text" id="withdrawCard">
+      <label>Имя получателя</label><input type="text" id="withdrawName">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('withdrawModal')">Отмена</button>
+      <button class="btn-primary" onclick="submitWithdraw()">Отправить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="pendingWithdrawModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>💸 Заявка на вывод</h3><button class="close-btn" onclick="closeModal('pendingWithdrawModal')">✕</button></div>
+    <div class="modal-body" id="pendingWithdrawBody"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('pendingWithdrawModal')">Закрыть</button>
+      <button class="btn-danger" onclick="cancelPendingWithdraw()">❌ Отменить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="editWithdrawModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>✏ Изменить реквизиты</h3><button class="close-btn" onclick="closeModal('editWithdrawModal')">✕</button></div>
+    <div class="modal-body">
+      <label>Карта или телефон (СБП)</label><input type="text" id="editWithdrawCard">
+      <label>Имя получателя</label><input type="text" id="editWithdrawName">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('editWithdrawModal')">Отмена</button>
+      <button class="btn-primary" onclick="saveEditWithdraw()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="banModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>🚫 Бан</h3><button class="close-btn" onclick="closeModal('banModal')">✕</button></div>
+    <div class="modal-body">
+      <p id="banTarget" style="margin-bottom: 12px;"></p>
+      <label>Срок</label>
+      <select id="banDuration">
+        <option value="5m">5 мин</option>
+        <option value="30m">30 мин</option>
+        <option value="1h">1 час</option>
+        <option value="24h">1 день</option>
+        <option value="7d">7 дней</option>
+        <option value="permanent">♾ Навсегда</option>
+      </select>
+      <label>Причина</label><textarea id="banReason"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('banModal')">Отмена</button>
+      <button class="btn-danger" onclick="confirmBan()">Забанить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="adminUserModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3 id="adminUserTitle">Профиль игрока</h3><button class="close-btn" onclick="closeModal('adminUserModal')">✕</button></div>
+    <div class="modal-body" id="adminUserBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="reviewModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>⭐ Отзыв</h3><button class="close-btn" onclick="closeModal('reviewModal')">✕</button></div>
+    <div class="modal-body">
+      <p id="reviewTarget" style="color: var(--text2); margin-bottom: 10px; font-size: 12px;"></p>
+      <label>Оценка</label>
+      <select id="reviewRating">
+        <option value="5">⭐⭐⭐⭐⭐ Отлично</option>
+        <option value="4">⭐⭐⭐⭐ Хорошо</option>
+        <option value="3">⭐⭐⭐ Нормально</option>
+        <option value="2">⭐⭐ Плохо</option>
+        <option value="1">⭐ Ужасно</option>
+      </select>
+      <label>Комментарий</label><textarea id="reviewText"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('reviewModal')">Отмена</button>
+      <button class="btn-primary" onclick="submitReview()">Отправить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="referralModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>🎁 Реферальная программа</h3><button class="close-btn" onclick="closeModal('referralModal')">✕</button></div>
+    <div class="modal-body" id="referralBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="dataTransferModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>📤 Передать данные аккаунта</h3><button class="close-btn" onclick="closeModal('dataTransferModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="warning-box"><b>⚠️ Внимание</b><br>Введите данные аккаунта — они отправятся <b>только покупателю</b> в чат.</div>
+      <label>Email / Логин</label><input type="text" id="transferEmail">
+      <label>Пароль</label><input type="text" id="transferPass">
+      <label>Дополнительно (необязательно)</label><textarea id="transferExtra"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('dataTransferModal')">Отмена</button>
+      <button class="btn-primary" onclick="sendAccountData()">📤 Отправить покупателю</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="appealModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>📝 Апелляция бана</h3><button class="close-btn" onclick="closeModal('appealModal')">✕</button></div>
+    <div class="modal-body">
+      <p style="font-size:12px;color:var(--text2);margin-bottom:10px;">Опишите ситуацию. Админ рассмотрит.</p>
+      <label>Ваше обращение</label><textarea id="appealText" placeholder="Почему вас нужно разбанить?"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('appealModal')">Отмена</button>
+      <button class="btn-primary" onclick="sendAppeal()">Отправить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="reportModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>⚠ Жалоба</h3><button class="close-btn" onclick="closeModal('reportModal')">✕</button></div>
+    <div class="modal-body">
+      <p id="reportTarget" style="margin-bottom: 12px; font-size: 13px;"></p>
+      <label>Причина</label><textarea id="reportReason"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('reportModal')">Отмена</button>
+      <button class="btn-danger" onclick="submitReport()">Отправить</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL = 'https://bvraavreoogqpwtvmtyp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_9o3UOMkUVXdI7ZnkvXYXwA_TI1gfLgc';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const ADMIN_NICK = 'AdminMarket';
+const SUPPORT_NICK = 'Поддержка';
+const MIN_PRICE = 90;
+const COMMISSION_PERCENT = 15;
+const MIN_COMMISSION = 10;
+const TOTAL_SERVERS = 38;
+const WITHDRAW_FEE_PERCENT = 10;
+const WITHDRAW_MIN = 100;
+const MAX_PHOTOS = 5;
+const BOOST_PRICE = 50;
+const BOOST_HOURS = 24;
+const DEAL_TIMEOUT_HOURS = 72;
+const REFERRAL_SIGNUP_BONUS = 25;
+const REFERRAL_REFERRER_BONUS = 50;
+const REFERRAL_MIN_DEPOSIT = 100;
+
+const CATEGORIES = { accounts: '🎮 Аккаунты', virts: '💰 Вирты', coins: '🪙 Гранд Коины', items: '🎨 Предметы', services: '🤝 Услуги', obzvony: '📞 Обзвоны', boosts: '🚀 Буст' };
+const PUBLIC_SPECS = { accounts: ['acc_level','acc_bind','acc_inv'], virts: ['virt_server','virt_amount'], coins: ['coin_amount'], items: ['item_name','item_rare','item_server'], services: ['srv_what','srv_time'], obzvony: ['obz_what','obz_time'], boosts: ['bst_what','bst_time','bst_get'] };
+const PRIVATE_SPECS = { accounts: ['acc_email','acc_pass'], virts: ['virt_nick','virt_method'], coins: ['coin_nick','coin_method'] };
+const SPEC_FIELDS = {
+  accounts: [
+    { key: 'acc_level', label: 'Уровень / Ранг', type: 'text' },
+    { key: 'acc_bind', label: 'Что привязано (кратко)', type: 'text' },
+    { key: 'acc_inv', label: 'Что в инвентаре (кратко)', type: 'textarea' },
+    { key: 'acc_email', label: '🔒 Email (покупатель увидит в чате)', type: 'text' },
+    { key: 'acc_pass', label: '🔒 Пароль (покупатель увидит в чате)', type: 'text' }
+  ],
+  virts: [
+    { key: 'virt_server', label: 'Сервер', type: 'text' },
+    { key: 'virt_amount', label: 'Сколько виртов', type: 'text' },
+    { key: 'virt_nick', label: '🔒 Ник получателя', type: 'text' },
+    { key: 'virt_method', label: '🔒 Способ передачи', type: 'text' }
+  ],
+  coins: [
+    { key: 'coin_amount', label: 'Сколько коинов', type: 'text' },
+    { key: 'coin_nick', label: '🔒 Ник игрока', type: 'text' },
+    { key: 'coin_method', label: '🔒 Способ передачи', type: 'text' }
+  ],
+  items: [
+    { key: 'item_name', label: 'Название предмета', type: 'text' },
+    { key: 'item_rare', label: 'Редкость', type: 'text' },
+    { key: 'item_server', label: 'Сервер', type: 'text' }
+  ],
+  services: [
+    { key: 'srv_what', label: 'Что за услуга', type: 'text' },
+    { key: 'srv_time', label: 'Время выполнения', type: 'text' },
+    { key: 'srv_need', label: 'Что нужно от покупателя', type: 'textarea' }
+  ],
+  obzvony: [
+    { key: 'obz_what', label: 'Что за обзвон', type: 'text' },
+    { key: 'obz_time', label: 'Длительность', type: 'text' }
+  ],
+  boosts: [
+    { key: 'bst_what', label: 'Что бустим', type: 'text' },
+    { key: 'bst_time', label: 'Срок', type: 'text' },
+    { key: 'bst_get', label: 'Что получит покупатель', type: 'textarea' }
+  ]
+};
+
+const ACHIEVEMENTS = [
+  { id: 'first_sale', icon: '🥇', name: 'Первая продажа' },
+  { id: '10_sales', icon: '🔥', name: '10 продаж' },
+  { id: '100_sales', icon: '💎', name: '100 продаж' },
+  { id: 'first_buy', icon: '🛍', name: 'Первая покупка' },
+  { id: '5_reviews', icon: '⭐', name: '5 отзывов' },
+  { id: 'boost_master', icon: '🚀', name: 'Бустер' },
+  { id: 'referral', icon: '🎁', name: 'Реферер' }
+];
+
+let currentUser = null;
+let myProfile = null;
+let products = [];
+let deals = [];
+let reviews = [];
+let notifications = [];
+let deposits = [];
+let withdraws = [];
+let reports = [];
+let allProfiles = [];
+let currentCategory = 'all';
+let currentSort = 'new';
+let currentServerFilter = null;
+let currentPriceMin = null;
+let currentPriceMax = null;
+let searchQuery = '';
+let pendingImages = [];
+let activeDealId = null;
+let banTargetUser = null;
+let profileTab = 'products';
+let profileSubTab = 'active';
+let pubTab = 'products';
+let currentPubLogin = null;
+let viewFrom = 'catalog';
+let boostProductId = null;
+let cart = JSON.parse(localStorage.getItem('gm_cart') || '[]');
+let currentView = 'catalog';
+let authMode = 'login';
+let pendingReviewOrder = null;
+let selectedNotifs = new Set();
+let pendingWithdrawId = null;
+let adminUserLogin = null;
+let reportTargetUser = null;
+let chatImgData = null;
+let soundEnabled = localStorage.getItem('gm_sound') !== 'off';
+
+function toast(text, type = 'info') {
+  const c = document.getElementById('toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.textContent = text;
+  c.appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 300); }, 2800);
+}
+function calcCommission(price) { return Math.max(Math.floor(price * COMMISSION_PERCENT / 100), MIN_COMMISSION); }
+function calcWithdrawFee(sum) { return Math.floor(sum * WITHDRAW_FEE_PERCENT / 100); }
+function isAdmin() { return myProfile && myProfile.nick === ADMIN_NICK; }
+function isBoosted(p) { return p.boosted && p.boosted_until && new Date(p.boosted_until) > new Date(); }
+function getProfileByLogin(login) { return allProfiles.find(p => p.login === login); }
+function getRating(login) {
+  const r = reviews.filter(x => x.to_login === login);
+  if (!r.length) return null;
+  return { avg: (r.reduce((s, x) => s + x.rating, 0) / r.length).toFixed(1), count: r.length };
+}
+function isOnline(login) {
+  const a = getProfileByLogin(login);
+  if (!a || !a.last_seen) return false;
+  return (Date.now() - new Date(a.last_seen).getTime()) / 60000 < 2;
+}
+function getCover(p) { return p.images && p.images.length > 0 ? p.images[0] : null; }
+function playNotifSound() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = 880; gain.gain.value = 0.1;
+    osc.start(); osc.stop(ctx.currentTime + 0.15);
+  } catch(e) {}
+}
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  localStorage.setItem('gm_sound', soundEnabled ? 'on' : 'off');
+  document.getElementById('soundState').textContent = soundEnabled ? 'вкл' : 'выкл';
+  toast(soundEnabled ? '🔊 Звук включён' : '🔇 Звук выключен', 'info');
+}
+
+async function loadAll() {
+  document.getElementById('loadingOverlay').style.display = 'flex';
+  try {
+    const [pRes, prRes, dRes, rRes, nRes, depRes, wRes, repRes] = await Promise.all([
+      sb.from('products').select('*').order('id', { ascending: false }),
+      sb.from('profiles').select('*'),
+      sb.from('deals').select('*').order('id', { ascending: false }),
+      sb.from('reviews').select('*').order('id', { ascending: false }),
+      sb.from('notifications').select('*').order('id', { ascending: false }),
+      sb.from('deposits').select('*').order('id', { ascending: false }),
+      sb.from('withdraws').select('*').order('id', { ascending: false }),
+      sb.from('reports').select('*').order('id', { ascending: false })
+    ]);
+    products = pRes.data || [];
+    allProfiles = prRes.data || [];
+    deals = dRes.data || [];
+    reviews = rRes.data || [];
+    notifications = nRes.data || [];
+    deposits = depRes.data || [];
+    withdraws = wRes.data || [];
+    reports = repRes.data || [];
+  } catch (e) { console.error(e); }
+  document.getElementById('loadingOverlay').style.display = 'none';
+}
+async function refreshProducts() { const { data } = await sb.from('products').select('*').order('id', { ascending: false }); products = data || []; }
+async function refreshDeals() { const { data } = await sb.from('deals').select('*').order('id', { ascending: false }); deals = data || []; }
+async function refreshProfiles() { const { data } = await sb.from('profiles').select('*'); allProfiles = data || []; }
+async function refreshNotifications() { if (!currentUser) return; const { data } = await sb.from('notifications').select('*').eq('user_id', currentUser.id).order('id', { ascending: false }); notifications = data || []; }
+async function refreshWithdraws() { const { data } = await sb.from('withdraws').select('*').order('id', { ascending: false }); withdraws = data || []; }
+
+async function checkSession() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session?.user) {
+    currentUser = session.user;
+    await refreshProfiles();
+    myProfile = allProfiles.find(p => p.id === currentUser.id);
+    if (!myProfile) { await sb.auth.signOut(); currentUser = null; }
+  }
+}
+async function ensureSupportProfile() {
+  const existing = getProfileByLogin(SUPPORT_NICK);
+  if (!existing) {
+    await sb.from('profiles').insert({
+      id: '00000000-0000-0000-0000-000000000001',
+      login: SUPPORT_NICK, nick: SUPPORT_NICK, server: '—', balance: 0, avatar: '🛡', verified: true, created: new Date().toISOString()
+    }).then(() => {}).catch(() => {});
+  }
+}
+async function ensureMyReferralCode() {
+  if (!myProfile || myProfile.ref_code) return;
+  const code = 'ref' + Date.now().toString(36).slice(-6) + Math.random().toString(36).slice(2, 5);
+  await sb.from('profiles').update({ ref_code: code }).eq('id', myProfile.id);
+  myProfile.ref_code = code;
+}
+
+function switchAuth(mode) {
+  authMode = mode;
+  document.getElementById('tabLogin').classList.toggle('active', mode === 'login');
+  document.getElementById('tabRegister').classList.toggle('active', mode === 'register');
+  document.getElementById('registerFields').style.display = mode === 'register' ? 'block' : 'none';
+  document.getElementById('authTitle').textContent = mode === 'login' ? 'Вход' : 'Регистрация';
+  document.getElementById('authSubmit').textContent = mode === 'login' ? 'Войти' : 'Создать';
+  if (mode === 'register') {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref');
+    if (ref) document.getElementById('authRef').value = ref;
+  }
+}
+async function checkNickAvailability() {
+  const nick = document.getElementById('authNick').value.trim();
+  const el = document.getElementById('nickStatus');
+  if (!nick) { el.textContent = ''; return; }
+  if (allProfiles.some(p => p.nick === nick)) { el.textContent = '❌ Ник занят'; el.className = 'nick-status bad'; }
+  else { el.textContent = '✅ Ник свободен'; el.className = 'nick-status ok'; }
+}
+
+async function doAuth() {
+  const email = document.getElementById('authEmail').value.trim();
+  const pass = document.getElementById('authPass').value;
+  if (!email || !pass) return toast('Заполни поля', 'error');
+  if (pass.length < 6) return toast('Пароль — минимум 6 символов', 'error');
+  const btn = document.getElementById('authSubmit');
+  btn.disabled = true;
+  btn.textContent = '...';
+  if (authMode === 'register') {
+    const nick = document.getElementById('authNick').value.trim();
+    const server = document.getElementById('authServer').value.trim() || '1';
+    const realName = document.getElementById('authRealName').value.trim();
+    const refCode = document.getElementById('authRef').value.trim();
+    if (!nick) { btn.disabled = false; btn.textContent = 'Создать'; return toast('Введи ник', 'error'); }
+    if (nick === SUPPORT_NICK) { btn.disabled = false; btn.textContent = 'Создать'; return toast('Ник занят', 'error'); }
+    if (allProfiles.some(p => p.nick === nick)) { btn.disabled = false; btn.textContent = 'Создать'; return toast('Ник занят', 'error'); }
+    let referrer = null;
+    if (refCode) {
+      referrer = allProfiles.find(p => p.ref_code === refCode || p.login === refCode);
+      if (!referrer) { btn.disabled = false; btn.textContent = 'Создать'; return toast('Реферальный код не найден', 'error'); }
+      if (referrer.nick === nick) { btn.disabled = false; btn.textContent = 'Создать'; return toast('Нельзя ввести свой код', 'error'); }
+    }
+    const myRef = 'ref' + Date.now().toString(36).slice(-6) + Math.random().toString(36).slice(2, 5);
+    const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { nick, server, real_name: realName } } });
+    if (error) { btn.disabled = false; btn.textContent = 'Создать'; return toast('Ошибка: ' + error.message, 'error'); }
+    if (!data.user) { btn.disabled = false; btn.textContent = 'Создать'; return toast('Ошибка', 'error'); }
+    currentUser = data.user;
+    await new Promise(r => setTimeout(r, 900));
+    await refreshProfiles();
+    myProfile = allProfiles.find(p => p.id === currentUser.id);
+    let startBalance = 0;
+    if (referrer) startBalance = REFERRAL_SIGNUP_BONUS;
+    if (!myProfile) {
+      await sb.from('profiles').insert({
+        id: currentUser.id, login: nick, nick, server, real_name: realName,
+        balance: startBalance, avatar: '😎', ref_code: myRef, referred_by: referrer ? referrer.login : null,
+        signup_bonus_received: !!referrer
+      });
+      await refreshProfiles();
+      myProfile = allProfiles.find(p => p.id === currentUser.id);
+    }
+    await ensureMyReferralCode();
+    await createSupportChatFor(currentUser.id, nick);
+    if (referrer) {
+      await sb.from('notifications').insert({ user_id: referrer.id, text: `🎁 По вашей ссылке зарегался ${nick}. +${REFERRAL_REFERRER_BONUS}₽ после его пополнения.` });
+    }
+    closeModal('authModal');
+    if (referrer) toast(`✅ Аккаунт создан! +${REFERRAL_SIGNUP_BONUS}₽ бонус`, 'success');
+    else toast('✅ Аккаунт создан!', 'success');
+    startApp();
+  } else {
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+    btn.disabled = false;
+    btn.textContent = 'Войти';
+    if (error) return toast('Ошибка: ' + error.message, 'error');
+    currentUser = data.user;
+    await refreshProfiles();
+    myProfile = allProfiles.find(p => p.id === currentUser.id);
+    if (!myProfile) { toast('Профиль не найден', 'error'); await sb.auth.signOut(); currentUser = null; return; }
+    if (myProfile.banned) {
+      const until = myProfile.ban_until === 'permanent' ? 'навсегда' : new Date(myProfile.ban_until).toLocaleString('ru');
+      toast(`🚫 Забанен до ${until}. ${myProfile.ban_reason||''}`, 'error');
+      return;
+    }
+    await ensureMyReferralCode();
+    closeModal('authModal');
+    toast('✅ Вход выполнен', 'success');
+    startApp();
+  }
+}
+
+async function createSupportChatFor(userId, nick) {
+  const support = getProfileByLogin(SUPPORT_NICK);
+  if (!support) return;
+  const existing = deals.find(d => d.status === 'support' && (d.buyer_login === nick || d.seller_login === nick));
+  if (existing) return;
+  const welcome = `👋 Добро пожаловать в GRANDMARKET, ${nick}!
+
+Это официальный чат поддержки. Здесь вы можете задать любой вопрос — по сделкам, пополнению, выводу, спорным ситуациям или работе маркетплейса.
+
+Мы отвечаем в течение 1-6 часов.
+
+📖 Перед началом рекомендуем прочитать Правила (кнопка «!» в шапке).
+
+💡 Если у вас проблема со сделкой — нажмите «⚠ Проблема» в чате сделки, и мы подключимся.
+
+Хороших покупок! 🚀`;
+  const messages = [{ from: SUPPORT_NICK, text: welcome, time: new Date().toISOString() }];
+  await sb.from('deals').insert({
+    product_id: null, title: 'Поддержка', price: 0,
+    buyer_id: userId, seller_id: support.id,
+    buyer_login: nick, seller_login: SUPPORT_NICK,
+    status: 'support', messages
+  });
+}
+async function ensureSupportChat() {
+  if (!myProfile) return;
+  const hasChat = deals.find(d => d.status === 'support' && (d.buyer_login === myProfile.nick || d.seller_login === myProfile.nick));
+  if (!hasChat) { await createSupportChatFor(myProfile.id, myProfile.nick); await refreshDeals(); }
+}
+async function logout() { await sb.auth.signOut(); currentUser = null; myProfile = null; location.reload(); }
+function openAuthOrProfile() { if (currentUser && myProfile) openProfileScreen(); else openAuth(); }
+function openAuth() {
+  document.getElementById('authEmail').value = '';
+  document.getElementById('authPass').value = '';
+  switchAuth('login');
+  openModal('authModal');
+}
+
+async function startApp() {
+  document.getElementById('mainHeader').style.display = '';
+  showScreen('catalogStart');
+  await loadAll();
+  await refreshNotifications();
+  await refreshWithdraws();
+  await ensureSupportChat();
+  renderAnnounce();
+  updateUI();
+  renderServerSelect();
+  renderNewProducts();
+  updateCartBadge();
+  if (myProfile) {
+    await sb.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', myProfile.id);
+    setInterval(async () => { if (myProfile) await sb.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', myProfile.id); }, 60000);
+  }
+  setInterval(async () => {
+    if (!myProfile) return;
+    await refreshNotifications();
+    await refreshDeals();
+    updateUI();
+    checkDealTimeouts();
+  }, 30000);
+}
+
+function showScreen(name) {
+  ['catalogStart','catalogView','chatsScreen','chatViewScreen','favoritesScreen','adminScreen','profileScreen','publicProfileScreen'].forEach(s => {
+    const el = document.getElementById(s);
+    if (el) el.style.display = 'none';
+  });
+  const el = document.getElementById(name);
+  if (el) el.style.display = 'block';
+  currentView = name;
+}
+
+async function renderAnnounce() {
+  const bar = document.getElementById('announceBar');
+  const announce = localStorage.getItem('gm_announce_text');
+  const announceImg = localStorage.getItem('gm_announce_img');
+  if (announce) {
+    let html = `<div>📢 ${announce}</div>`;
+    if (announceImg) html += `<img src="${announceImg}">`;
+    bar.innerHTML = html;
+    bar.style.display = 'flex';
+  } else bar.style.display = 'none';
+}
+
+function updateUI() {
+  const label = document.getElementById('userLabel');
+  if (myProfile) {
+    const av = myProfile.avatar && myProfile.avatar.startsWith('data:') ? '' : (myProfile.avatar || '😎');
+    label.textContent = (isAdmin() ? '👑 ' : av + ' ') + (myProfile.nick || 'user');
+  } else label.textContent = '👤 Войти';
+  const notifCount = document.getElementById('notifCount');
+  if (currentUser) {
+    const unread = notifications.filter(n => !n.read).length;
+    notifCount.textContent = unread;
+    notifCount.style.display = unread > 0 ? 'inline-block' : 'none';
+  }
+  updateCartBadge();
+  updateChatBadge();
+}
+function updateCartBadge() { document.getElementById('cartCount').textContent = cart.length; }
+function updateChatBadge() {
+  if (!myProfile) return;
+  const badge = document.getElementById('chatBadge');
+  const my = deals.filter(d => (d.buyer_login === myProfile.nick || d.seller_login === myProfile.nick) && d.status === 'active');
+  badge.textContent = my.length;
+  badge.style.display = my.length > 0 ? 'inline-block' : 'none';
+}
+
+function renderServerSelect() {
+  const sel = document.getElementById('serverSelect');
+  if (!sel) return;
+  let html = '<option value="">Все сервера</option>';
+  for (let i = 1; i <= TOTAL_SERVERS; i++) html += `<option value="${i}" ${currentServerFilter === i ? 'selected' : ''}>Сервер ${i}</option>`;
+  sel.innerHTML = html;
+  document.getElementById('serverLabel').textContent = currentServerFilter === null ? 'Все сервера' : ('Сервер ' + currentServerFilter);
+}
+function selectServerFromSelect() {
+  const v = document.getElementById('serverSelect').value;
+  currentServerFilter = v ? parseInt(v) : null;
+  document.getElementById('serverLabel').textContent = currentServerFilter === null ? 'Все сервера' : ('Сервер ' + currentServerFilter);
+  renderNewProducts();
+}
+function searchServer() {
+  const v = document.getElementById('serverSearch').value;
+  if (v && +v >= 1 && +v <= TOTAL_SERVERS) {
+    currentServerFilter = +v;
+    document.getElementById('serverSelect').value = v;
+    document.getElementById('serverLabel').textContent = 'Сервер ' + v;
+    renderNewProducts();
+  }
+}
+function resetServer() {
+  currentServerFilter = null;
+  document.getElementById('serverSelect').value = '';
+  document.getElementById('serverSearch').value = '';
+  document.getElementById('serverLabel').textContent = 'Все сервера';
+  renderNewProducts();
+}
+
+function renderNewProducts() {
+  const grid = document.getElementById('newProductsGrid');
+  let items = products.filter(p => !p.sold);
+  if (currentServerFilter !== null) items = items.filter(p => String(p.server) === String(currentServerFilter));
+  items.sort((a, b) => {
+    const aB = isBoosted(a) ? 1 : 0, bB = isBoosted(b) ? 1 : 0;
+    if (aB !== bB) return bB - aB;
+    return b.id - a.id;
+  });
+  items = items.slice(0, 8);
+  document.getElementById('newCount').textContent = items.length;
+  if (!items.length) { grid.innerHTML = '<div class="empty-state"><div class="icon">📦</div><div>Товаров нет</div></div>'; return; }
+  grid.innerHTML = items.map(p => renderCard(p)).join('');
+}
+
+function renderCard(p) {
+  const seller = getProfileByLogin(p.seller_login) || {};
+  const rating = getRating(p.seller_login);
+  const isFav = myProfile && (myProfile.favorites || []).includes(p.id);
+  const verified = seller.verified ? ' <span class="verified-badge">✔</span>' : '';
+  const av = seller.avatar && seller.avatar.startsWith('data:') ? `<img src="${seller.avatar}" style="width:14px;height:14px;border-radius:50%;vertical-align:middle;">` : (seller.avatar || '😎');
+  const cover = getCover(p);
+  const photoCount = (p.images || []).length;
+  const boosted = isBoosted(p);
+  let discountHtml;
+  if (p.old_price && p.old_price > p.price) {
+    const pct = Math.round((1 - p.price / p.old_price) * 100);
+    discountHtml = `<span class="old-price">${p.old_price.toLocaleString()} ₽</span>${p.price.toLocaleString()} ₽<span class="discount-pct">-${pct}%</span>`;
+  } else discountHtml = `${p.price.toLocaleString()} ₽`;
+  return `
+    <div class="product-card" onclick="viewProduct(${p.id})">
+      <button class="fav-btn" onclick="event.stopPropagation(); toggleFav(${p.id})">${isFav ? '❤' : '🤍'}</button>
+      <div class="product-img">
+        ${cover ? `<img src="${cover}">` : (p.emoji || '📦')}
+        ${boosted ? '<div class="boost-badge">🚀 ТОП</div>' : ''}
+        ${photoCount > 1 ? `<div class="photo-count">📷 ${photoCount}</div>` : ''}
+      </div>
+      <div class="product-info">
+        <div class="product-title">${p.title}</div>
+        <div class="product-price">${discountHtml}</div>
+        <div class="product-seller">${av} ${seller.nick || p.seller_login}${verified}</div>
+        <div class="product-server">🎮 Сервер ${p.server || '—'}</div>
+        <div class="product-rating">${rating ? `⭐ ${rating.avg}` : 'Нет отзывов'}</div>
+      </div>
+    </div>`;
+}
+
+function openCategory(cat) {
+  currentCategory = cat;
+  showScreen('catalogView');
+  document.getElementById('catalogTitle').textContent = (cat === 'all' ? 'Все товары' : CATEGORIES[cat]);
+  renderCategoryProducts();
+}
+function renderCategoryProducts() {
+  const grid = document.getElementById('productsGrid');
+  const onlineOnly = document.getElementById('onlineOnly')?.checked;
+  let filtered = products.filter(p => !p.sold);
+  if (currentCategory !== 'all') filtered = filtered.filter(p => p.category === currentCategory);
+  if (currentServerFilter !== null) filtered = filtered.filter(p => String(p.server) === String(currentServerFilter));
+  if (currentPriceMin !== null) filtered = filtered.filter(p => p.price >= currentPriceMin);
+  if (currentPriceMax !== null) filtered = filtered.filter(p => p.price <= currentPriceMax);
+  if (searchQuery) filtered = filtered.filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  if (onlineOnly) filtered = filtered.filter(p => isOnline(p.seller_login));
+  if (currentSort === 'cheap') filtered.sort((a, b) => a.price - b.price);
+  else if (currentSort === 'expensive') filtered.sort((a, b) => b.price - a.price);
+  else filtered.sort((a, b) => {
+    const aB = isBoosted(a) ? 1 : 0, bB = isBoosted(b) ? 1 : 0;
+    if (aB !== bB) return bB - aB;
+    return b.id - a.id;
+  });
+  document.getElementById('catalogCount').textContent = filtered.length;
+  if (!filtered.length) { grid.innerHTML = '<div class="empty-state"><div class="icon">📦</div><div>Товаров нет</div></div>'; return; }
+  grid.innerHTML = filtered.map(p => renderCard(p)).join('');
+}
+function applyPriceFilter() {
+  currentPriceMin = document.getElementById('priceMin').value ? parseInt(document.getElementById('priceMin').value) : null;
+  currentPriceMax = document.getElementById('priceMax').value ? parseInt(document.getElementById('priceMax').value) : null;
+  renderCategoryProducts();
+}
+function resetPriceFilter() {
+  document.getElementById('priceMin').value = '';
+  document.getElementById('priceMax').value = '';
+  currentPriceMin = null; currentPriceMax = null;
+  renderCategoryProducts();
+}
+function setSort(sort, el) {
+  currentSort = sort;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderCategoryProducts();
+}
+function filterProducts() {
+  searchQuery = document.getElementById('searchInput').value;
+  if (currentView === 'catalogView') renderCategoryProducts();
+  else { showScreen('catalogView'); document.getElementById('catalogTitle').textContent = '🔍 Поиск'; renderCategoryProducts(); }
+}
+function backToCatalogStart() { showScreen('catalogStart'); renderNewProducts(); }
+function backToCatalog() { showScreen('catalogStart'); renderNewProducts(); updateUI(); }
+function viewProduct(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const seller = getProfileByLogin(p.seller_login) || {};
+  const rating = getRating(p.seller_login);
+  const catName = CATEGORIES[p.category] || '📦';
+  let extraWarning = '';
+  if (p.category === 'accounts') extraWarning = `<div class="warning-box"><b>⚠️ ВНИМАНИЕ!</b><br>Продавец предоставляет <b>полный доступ</b> к аккаунту.<br>Email и пароль будут переданы <b>только в чате</b> после покупки.</div>`;
+  else if (p.category === 'virts') extraWarning = `<div class="warning-box"><b>💰 Вирты передаются без входа в аккаунт.</b></div>`;
+  const images = p.images && p.images.length > 0 ? p.images : [];
+  let galleryHtml = '';
+  if (!images.length) galleryHtml = `<div class="gallery-main" style="display:flex;align-items:center;justify-content:center;font-size:60px;">${p.emoji || '📦'}</div>`;
+  else if (images.length === 1) galleryHtml = `<img class="gallery-main" src="${images[0]}">`;
+  else galleryHtml = `<img class="gallery-main" id="galleryMain" src="${images[0]}"><div class="gallery">${images.map((img, i) => `<img src="${img}" class="${i===0?'active':''}" onclick="switchGallery('${img}', this)">`).join('')}</div>`;
+  let priceHtml;
+  if (p.old_price && p.old_price > p.price) {
+    const pct = Math.round((1 - p.price / p.old_price) * 100);
+    priceHtml = `<span style="text-decoration:line-through;color:var(--gray);font-size:14px;margin-right:8px;">${p.old_price.toLocaleString()} ₽</span>${p.price.toLocaleString()} ₽ <span style="color:var(--red);font-size:13px;">-${pct}%</span>`;
+  } else priceHtml = `${p.price.toLocaleString()} ₽`;
+  let specHtml = '';
+  const specs = p.specs || {};
+  const publicKeys = PUBLIC_SPECS[p.category] || [];
+  const fields = SPEC_FIELDS[p.category] || [];
+  if (fields.length) {
+    let shown = false;
+    let inner = '';
+    fields.forEach(f => {
+      if (!publicKeys.includes(f.key)) return;
+      const val = specs[f.key];
+      if (val) { inner += `<div class="spec-field"><div class="lbl">${f.label}</div><div class="val">${val}</div></div>`; shown = true; }
+    });
+    if (shown) specHtml = `<div style="margin-top:14px;"><div style="font-size:12px;color:var(--accent);font-weight:bold;margin-bottom:6px;">📋 Характеристики</div>${inner}</div>`;
+    if (PRIVATE_SPECS[p.category] && PRIVATE_SPECS[p.category].length) {
+      specHtml += `<div style="margin-top:10px;padding:8px 10px;background:rgba(59,130,246,0.1);border:1px solid var(--blue);border-radius:8px;font-size:11px;color:var(--text2);">🔒 Часть данных будет передана вам в чате после покупки.</div>`;
+    }
+  }
+  let safetyHtml = '';
+  if (p.category === 'accounts') {
+    safetyHtml = `<div class="safety-list"><div style="font-weight:bold;color:var(--gold);margin-bottom:6px;">🛡 Чек-лист безопасности</div><div class="item">✅ Проверьте отзывы продавца</div><div class="item">✅ Убедитесь что цена адекватная</div><div class="item">✅ Не выходите из чата сделки</div><div class="item">✅ Подтверждайте получение ТОЛЬКО после проверки</div><div class="item">✅ При проблеме — кнопка «⚠ Проблема»</div></div>`;
+  }
+  const av = seller.avatar && seller.avatar.startsWith('data:') ? `<img src="${seller.avatar}" style="width:20px;height:20px;border-radius:50%;vertical-align:middle;">` : (seller.avatar || '😎');
+  const online = isOnline(p.seller_login) ? '<span class="online-dot on"></span>онлайн' : '<span class="online-dot off"></span>не в сети';
+  const boosted = isBoosted(p);
+  document.getElementById('pvTitle').textContent = p.title;
+  document.getElementById('productViewBody').innerHTML = `
+    ${boosted ? '<div class="boost-badge" style="position:static;display:inline-block;margin-bottom:8px;">🚀 В ТОПЕ</div>' : ''}
+    ${galleryHtml}
+    <h3 style="margin: 10px 0 6px; font-size: 16px;">${p.title}</h3>
+    <div style="font-size: 22px; font-weight: bold; color: var(--accent); margin-bottom: 10px;">${priceHtml}</div>
+    <div style="font-size: 12px; color: var(--accent2); margin-bottom: 10px;">${catName} · Сервер ${p.server || '—'}</div>
+    ${extraWarning}
+    <p style="color: var(--text2); margin-bottom: 12px; white-space:pre-wrap;">${p.description || 'Без описания'}</p>
+    ${specHtml}
+    <div style="padding: 8px; background: var(--card); border-radius: 10px; font-size: 12px; margin-bottom: 8px;">
+      <div style="color: var(--text2); margin-bottom: 4px;">Продавец:</div>
+      <div style="cursor:pointer;color:var(--accent);font-weight:bold;" onclick="closeModal('productModal');openPublicProfile('${p.seller_login}')">${av} ${seller.nick || p.seller_login}${seller.verified ? ' <span class="verified-badge">✔</span>' : ''} ›</div>
+    </div>
+    <div style="font-size: 12px; color: var(--text2);">${online} · Рейтинг: ${rating ? `⭐ ${rating.avg} (${rating.count})` : 'нет'}</div>
+    ${safetyHtml}
+    <div style="margin-top:12px; padding:10px; background:rgba(168,85,247,0.1); border:1px solid var(--accent); border-radius:10px; font-size:12px;">
+      💬 <b>После покупки автоматически откроется чат с продавцом.</b><br>
+      Деньги замораживаются на 3 дня. Продавец передаёт — вы подтверждаете.
+    </div>
+    <div style="margin-top:10px;display:flex;gap:6px;">
+      <button class="btn-secondary" style="flex:1;" onclick="shareProduct(${p.id})">📤 Поделиться</button>
+    </div>
+  `;
+  const footer = document.getElementById('productViewFooter');
+  if (!myProfile) footer.innerHTML = `<button class="btn-primary" onclick="closeModal('productModal');openAuth()">Войти</button>`;
+  else if (p.seller_login === myProfile.nick) footer.innerHTML = `<button class="btn-danger" onclick="deleteProduct(${p.id})">🗑</button>${!isBoosted(p) ? `<button class="btn-primary" onclick="openBoost(${p.id})">🚀 Буст 50₽</button>` : ''}`;
+  else footer.innerHTML = `<button class="btn-secondary" onclick="addToCart(${p.id})">🛒</button><button class="btn-primary" onclick="buyProduct(${p.id})">⚡ Купить</button>`;
+  openModal('productModal');
+}
+function shareProduct(id) {
+  const url = window.location.origin + window.location.pathname + '?product=' + id;
+  navigator.clipboard.writeText(url).then(() => toast('📤 Ссылка скопирована', 'success'));
+}
+function switchGallery(src, el) {
+  document.getElementById('galleryMain').src = src;
+  document.querySelectorAll('.gallery img').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
+function addToCart(id) {
+  if (cart.find(c => c.id === id)) return toast('Уже в корзине', 'warning');
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  cart.push({ id: p.id, title: p.title, price: p.price });
+  localStorage.setItem('gm_cart', JSON.stringify(cart));
+  updateCartBadge();
+  closeModal('productModal');
+  toast('🛒 Добавлено', 'success');
+}
+function openCart() {
+  if (!myProfile) return openAuth();
+  const body = document.getElementById('cartBody');
+  if (!cart.length) body.innerHTML = '<div class="empty-state"><div class="icon">🛒</div><div>Корзина пуста</div></div>';
+  else {
+    const total = cart.reduce((s, c) => s + c.price, 0);
+    body.innerHTML = cart.map((c, i) => `<div class="cart-item"><div><div class="cart-item-title">${c.title}</div><div class="cart-item-price">${c.price.toLocaleString()} ₽</div></div><button class="cart-remove" onclick="removeFromCart(${i})">Убрать</button></div>`).join('') + `<div style="margin-top:12px;padding:12px;background:var(--card);border-radius:12px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:11px;color:var(--text2);">Итого:</div><div style="font-size:18px;font-weight:bold;">${total.toLocaleString()} ₽</div></div><button class="btn-primary" onclick="checkout()">Купить</button></div>`;
+  }
+  openModal('cartModal');
+}
+function removeFromCart(i) { cart.splice(i, 1); localStorage.setItem('gm_cart', JSON.stringify(cart)); updateCartBadge(); openCart(); }
+async function checkout() {
+  if (!myProfile) return;
+  const total = cart.reduce((s, c) => s + c.price, 0);
+  if ((myProfile.balance || 0) < total) return toast(`Не хватает ${total - myProfile.balance} ₽`, 'error');
+  for (const c of cart) {
+    const p = products.find(x => x.id === c.id);
+    if (!p || p.seller_login === myProfile.nick) continue;
+    await doBuyProductInternal(p);
+  }
+  cart = []; localStorage.setItem('gm_cart', JSON.stringify(cart)); updateCartBadge();
+  closeModal('cartModal');
+  toast('✅ Заказ оформлен', 'success');
+  await refreshProducts(); await refreshDeals(); await refreshProfiles();
+  showScreen('chatsScreen'); renderChats();
+}
+async function buyProduct(id) {
+  if (!myProfile) { closeModal('productModal'); return openAuth(); }
+  const p = products.find(x => x.id === id);
+  if (!p || p.seller_login === myProfile.nick) return;
+  if ((myProfile.balance || 0) < p.price) return toast(`Нужно ${p.price} ₽`, 'error');
+  await doBuyProductInternal(p);
+  closeModal('productModal');
+  await refreshProducts(); await refreshDeals(); await refreshProfiles();
+  toast('✅ Куплено', 'success');
+  const deal = deals.find(d => d.product_id === p.id && d.buyer_login === myProfile.nick);
+  if (deal) openChatView(deal.id);
+}
+async function doBuyProductInternal(p) {
+  await sb.from('profiles').update({ balance: myProfile.balance - p.price }).eq('id', myProfile.id);
+  myProfile.balance -= p.price;
+  await sb.from('products').update({ sold: true }).eq('id', p.id);
+  const created = new Date().toISOString();
+  const messages = [
+    { from: 'system', text: `💳 Деньги заморожены: ${p.price} ₽ (на 3 дня)`, time: created },
+    { from: myProfile.nick, text: `Здравствуйте! Купил «${p.title}» за ${p.price} ₽.`, time: created }
+  ];
+  await sb.from('deals').insert({
+    product_id: p.id, title: p.title, price: p.price,
+    buyer_id: myProfile.id, seller_id: p.seller_id,
+    buyer_login: myProfile.nick, seller_login: p.seller_login,
+    status: 'active', messages, created
+  });
+  await sb.from('notifications').insert({ user_id: p.seller_id, text: `🛍 «${p.title}» куплен за ${p.price} ₽` });
+}
+
+function renderPhotoSlots() {
+  const grid = document.getElementById('photosGrid');
+  let html = '';
+  for (let i = 0; i < MAX_PHOTOS; i++) {
+    if (pendingImages[i]) html += `<div class="photo-slot filled"><img src="${pendingImages[i]}"><button class="remove-photo" onclick="removePhoto(${i})">✕</button></div>`;
+    else html += `<div class="photo-slot" onclick="document.getElementById('imgInput').click()">${i === 0 ? '📷+' : '+'}</div>`;
+  }
+  grid.innerHTML = html;
+}
+function removePhoto(i) { pendingImages.splice(i, 1); renderPhotoSlots(); }
+function onImagesPicked() {
+  const files = document.getElementById('imgInput').files;
+  if (!files) return;
+  Array.from(files).forEach(file => {
+    if (pendingImages.length >= MAX_PHOTOS) return;
+    const r = new FileReader();
+    r.onload = e => { pendingImages.push(e.target.result); renderPhotoSlots(); };
+    r.readAsDataURL(file);
+  });
+  document.getElementById('imgInput').value = '';
+}
+function updateSellCommission() {
+  const price = parseInt(document.getElementById('sellPrice').value) || 0;
+  const info = document.getElementById('sellCommissionInfo');
+  if (price < MIN_PRICE) { info.textContent = `Минимум ${MIN_PRICE} ₽`; return; }
+  const comm = calcCommission(price);
+  info.innerHTML = `💰 Комиссия (15%): <b>${comm} ₽</b> · Вы получите: <b style="color:var(--green);">${price - comm} ₽</b>`;
+}
+function onSellCategoryChange() {
+  const cat = document.getElementById('sellCategory').value;
+  const warning = document.getElementById('sellWarning');
+  if (cat === 'accounts') { warning.style.display = 'block'; warning.innerHTML = '<b>⚠️ Полный доступ.</b><br>Email и пароль передаются покупателю в чате после покупки.<br>Публично эти данные не видны.'; }
+  else if (cat === 'virts') { warning.style.display = 'block'; warning.innerHTML = '<b>💰 Без входа в аккаунт.</b><br>Ник получателя покупатель введёт в чате.'; }
+  else warning.style.display = 'none';
+  renderSellSpecFields();
+}
+function renderSellSpecFields() {
+  const cat = document.getElementById('sellCategory').value;
+  const container = document.getElementById('sellSpecFields');
+  const fields = SPEC_FIELDS[cat] || [];
+  if (!fields.length) { container.innerHTML = ''; return; }
+  let html = `<div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--border);"><div style="font-size:12px;color:var(--accent);font-weight:bold;margin-bottom:6px;">📋 Характеристики (${CATEGORIES[cat]})</div>`;
+  fields.forEach(f => {
+    html += `<label>${f.label}</label>`;
+    if (f.type === 'textarea') html += `<textarea id="spec_${f.key}" style="min-height:60px;"></textarea>`;
+    else html += `<input type="text" id="spec_${f.key}">`;
+  });
+  html += `</div>`;
+  container.innerHTML = html;
+}
+async function publishProduct() {
+  if (!myProfile) { closeModal('sellModal'); return openAuth(); }
+  const title = document.getElementById('sellTitle').value.trim();
+  const desc = document.getElementById('sellDesc').value.trim();
+  const price = parseInt(document.getElementById('sellPrice').value);
+  const oldPrice = parseInt(document.getElementById('sellOldPrice').value) || null;
+  const cat = document.getElementById('sellCategory').value;
+  const server = parseInt(document.getElementById('sellServer').value) || 1;
+  if (!title) return toast('Введите название', 'error');
+  if (!price || price < MIN_PRICE) return toast(`Минимум ${MIN_PRICE} ₽`, 'error');
+  if (server < 1 || server > 38) return toast('Сервер 1-38', 'error');
+  const em = { accounts: '🎮', virts: '💰', coins: '🪙', items: '🎨', services: '🤝', obzvony: '📞', boosts: '🚀' };
+  const specs = {};
+  (SPEC_FIELDS[cat] || []).forEach(f => {
+    const el = document.getElementById('spec_' + f.key);
+    if (el && el.value.trim()) specs[f.key] = el.value.trim();
+  });
+  const { error } = await sb.from('products').insert({
+    seller_id: myProfile.id, seller_login: myProfile.nick,
+    title, description: desc, price, old_price: oldPrice, category: cat,
+    emoji: em[cat], server, images: pendingImages, specs
+  });
+  if (error) return toast('Ошибка: ' + error.message, 'error');
+  closeModal('sellModal');
+  document.getElementById('sellTitle').value = '';
+  document.getElementById('sellDesc').value = '';
+  document.getElementById('sellPrice').value = '';
+  document.getElementById('sellOldPrice').value = '';
+  pendingImages = []; renderPhotoSlots();
+  toast('✅ Опубликовано', 'success');
+  await refreshProducts();
+  showScreen('catalogStart'); renderNewProducts();
+}
+
+async function toggleFav(id) {
+  if (!myProfile) return openAuth();
+  const favs = myProfile.favorites || [];
+  const i = favs.indexOf(id);
+  if (i >= 0) favs.splice(i, 1); else favs.push(id);
+  await sb.from('profiles').update({ favorites: favs }).eq('id', myProfile.id);
+  myProfile.favorites = favs;
+  renderNewProducts();
+  if (currentView === 'catalogView') renderCategoryProducts();
+}
+function openFavorites() {
+  if (!myProfile) return openAuth();
+  showScreen('favoritesScreen');
+  renderFavorites();
+}
+function renderFavorites() {
+  const g = document.getElementById('favoritesGrid');
+  const f = (myProfile.favorites || []).map(id => products.find(p => p.id === id)).filter(p => p && !p.sold);
+  if (!f.length) return g.innerHTML = '<div class="empty-state"><div class="icon">❤</div><div>Пусто</div></div>';
+  g.innerHTML = f.map(p => renderCard(p)).join('');
+}
+function openBoost(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  if ((myProfile.balance || 0) < BOOST_PRICE) return toast(`Нужно ${BOOST_PRICE} ₽`, 'error');
+  boostProductId = id;
+  document.getElementById('boostTarget').textContent = `Товар: ${p.title} (${p.price} ₽)`;
+  closeModal('productModal');
+  openModal('boostModal');
+}
+async function confirmBoost() {
+  const p = products.find(x => x.id === boostProductId);
+  if (!p) return;
+  await sb.from('profiles').update({ balance: myProfile.balance - BOOST_PRICE }).eq('id', myProfile.id);
+  myProfile.balance -= BOOST_PRICE;
+  const until = new Date(Date.now() + BOOST_HOURS * 3600000).toISOString();
+  await sb.from('products').update({ boosted: true, boosted_until: until }).eq('id', p.id);
+  await addAchievement(myProfile.id, 'boost_master');
+  closeModal('boostModal');
+  await refreshProducts();
+  renderNewProducts();
+  toast('🚀 Товар в топе!', 'success');
+}
+async function deleteProduct(id) {
+  if (!confirm('Удалить товар?')) return;
+  await sb.from('products').delete().eq('id', id);
+  closeModal('productModal');
+  await refreshProducts();
+  renderNewProducts();
+  toast('Удалено', 'info');
+}
+async function addAchievement(userId, achId) {
+  const p = allProfiles.find(x => x.id === userId);
+  if (!p) return;
+  const list = p.achievements || [];
+  if (!list.includes(achId)) {
+    list.push(achId);
+    await sb.from('profiles').update({ achievements: list }).eq('id', userId);
+  }
+}
+function renderAchievements(list) {
+  return ACHIEVEMENTS.map(a => {
+    const got = (list || []).includes(a.id);
+    return `<div class="achievement ${got ? 'got' : ''}">${a.icon} ${a.name}</div>`;
+  }).join('');
+}
+
+function openProfileScreen() {
+  if (!myProfile) return openAuth();
+  showScreen('profileScreen');
+  document.getElementById('balanceActions').style.display = 'none';
+  document.getElementById('soundState').textContent = soundEnabled ? 'вкл' : 'выкл';
+  updateUI();
+  renderProfileContent();
+  renderPendingWithdraw();
+  ensureMyReferralCode();
+  const oldBtn = document.querySelector('.admin-btn');
+  if (oldBtn) oldBtn.remove();
+  if (isAdmin()) {
+    const btn = document.createElement('button');
+    btn.className = 'btn-primary admin-btn';
+    btn.style.cssText = 'width: calc(100% - 24px); margin: 12px; padding: 14px; font-size: 14px;';
+    btn.textContent = '👑 Панель администрации';
+    btn.onclick = () => openAdmin();
+    document.getElementById('profileScreen').appendChild(btn);
+  }
+}
+function toggleBalanceMenu() {
+  const el = document.getElementById('balanceActions');
+  el.style.display = el.style.display === 'none' ? 'grid' : 'none';
+}
+function switchProfileTab(tab, el) {
+  profileTab = tab;
+  document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('profileSubTabs').style.display = (tab === 'products' || tab === 'sales') ? 'flex' : 'none';
+  renderProfileContent();
+}
+function switchProfileSubTab(sub, el) {
+  profileSubTab = sub;
+  document.querySelectorAll('.profile-subtab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderProfileContent();
+}
+function renderPendingWithdraw() {
+  const block = document.getElementById('pendingWithdrawBlock');
+  const myPending = withdraws.find(w => w.user_login === myProfile.nick && w.status === 'pending');
+  if (!myPending) { block.innerHTML = ''; return; }
+  block.innerHTML = `
+    <div class="withdraw-pending">
+      <div style="font-weight:bold;color:var(--gold);margin-bottom:8px;">⏳ ВЫПЛАТА В ОБРАБОТКЕ</div>
+      <div class="row"><span>Сумма:</span><b>${myPending.sum.toLocaleString()} ₽</b></div>
+      <div class="row"><span>К получению:</span><b>${(myPending.sum - myPending.fee).toLocaleString()} ₽</b></div>
+      <div class="row"><span>Срок:</span><b>до 24 часов</b></div>
+      <div style="display:flex;gap:6px;margin-top:8px;">
+        <button class="cart-btn" style="flex:1;" onclick="openPendingWithdraw(${myPending.id})">👁 Реквизиты</button>
+        <button class="cart-btn" style="flex:1;" onclick="editPendingWithdraw(${myPending.id})">✏ Изменить</button>
+      </div>
+    </div>`;
+}
+function openPendingWithdraw(id) {
+  const w = withdraws.find(x => x.id === id);
+  if (!w) return;
+  pendingWithdrawId = id;
+  document.getElementById('pendingWithdrawBody').innerHTML = `
+    <div style="font-size:12px;line-height:1.8;">
+      <div><b>Сумма:</b> ${w.sum.toLocaleString()} ₽</div>
+      <div><b>Комиссия:</b> ${w.fee.toLocaleString()} ₽</div>
+      <div><b>К получению:</b> <span style="color:var(--green);font-weight:bold;">${(w.sum - w.fee).toLocaleString()} ₽</span></div>
+      <div style="margin-top:8px;"><b>Реквизиты:</b></div>
+      <div>💳 ${w.card || '—'}</div>
+      <div>👤 ${w.name || '—'}</div>
+      <div style="margin-top:8px;color:var(--gold);">⏳ В обработке (до 24ч)</div>
+    </div>`;
+  openModal('pendingWithdrawModal');
+}
+function editPendingWithdraw(id) {
+  const w = withdraws.find(x => x.id === id);
+  if (!w) return;
+  pendingWithdrawId = id;
+  document.getElementById('editWithdrawCard').value = w.card || '';
+  document.getElementById('editWithdrawName').value = w.name || '';
+  openModal('editWithdrawModal');
+}
+async function saveEditWithdraw() {
+  const w = withdraws.find(x => x.id === pendingWithdrawId);
+  if (!w) return;
+  const card = document.getElementById('editWithdrawCard').value.trim();
+  const name = document.getElementById('editWithdrawName').value.trim();
+  if (!card || !name) return toast('Заполни все поля', 'error');
+  await sb.from('withdraws').update({ card, name }).eq('id', pendingWithdrawId);
+  closeModal('editWithdrawModal');
+  await refreshWithdraws();
+  renderPendingWithdraw();
+  toast('✅ Реквизиты обновлены', 'success');
+}
+async function cancelPendingWithdraw() {
+  if (!confirm('Отменить заявку на вывод?')) return;
+  await sb.from('withdraws').update({ status: 'cancelled' }).eq('id', pendingWithdrawId);
+  closeModal('pendingWithdrawModal');
+  await refreshWithdraws();
+  renderPendingWithdraw();
+  toast('Заявка отменена', 'info');
+}
+
+function renderProfileContent() {
+  const c = document.getElementById('profileContent');
+  if (!myProfile) return;
+  const av = document.getElementById('pAvatar');
+  if (myProfile.avatar && myProfile.avatar.startsWith('data:')) av.innerHTML = `<img src="${myProfile.avatar}">`;
+  else av.textContent = myProfile.avatar || '😎';
+  document.getElementById('pNick').textContent = (myProfile.nick || '') + (isAdmin() ? ' 👑' : '');
+  const r = getRating(myProfile.nick);
+  const starsEl = document.getElementById('pStars');
+  if (r) { const f = Math.round(r.avg); starsEl.innerHTML = `<span style="color: var(--gold);">${'★'.repeat(f)}${'☆'.repeat(5-f)}</span> <b>${r.avg}</b> <span class="count">${r.count} отзывов</span>`; }
+  else starsEl.textContent = 'Нет отзывов';
+  document.getElementById('pJoined').textContent = 'С ' + (myProfile.created ? new Date(myProfile.created).toLocaleDateString('ru') : '—');
+  document.getElementById('pBalance').textContent = isAdmin() ? '∞' : ((myProfile.balance || 0).toLocaleString() + ' ₽');
+  document.getElementById('liEmail').textContent = currentUser.email;
+  document.getElementById('liNick').textContent = myProfile.nick;
+  document.getElementById('liRef').textContent = myProfile.ref_code || '—';
+  document.getElementById('profileAchievements').innerHTML = `<div style="font-size:11px;color:var(--gray);margin-bottom:4px;">🏆 Достижения</div>${renderAchievements(myProfile.achievements)}`;
+  if (profileTab === 'products') {
+    const my = products.filter(p => p.seller_login === myProfile.nick);
+    let list = [];
+    if (profileSubTab === 'active') list = my.filter(p => !p.sold);
+    else if (profileSubTab === 'process') list = my.filter(p => p.sold && deals.find(d => d.product_id === p.id && d.seller_login === myProfile.nick && d.status === 'active'));
+    else list = my.filter(p => p.sold && !deals.find(d => d.product_id === p.id && d.seller_login === myProfile.nick && d.status === 'active'));
+    if (!list.length) c.innerHTML = `<div class="profile-empty"><div class="profile-empty-emoji">😳</div><div class="profile-empty-title">Пусто</div></div>` + (profileSubTab === 'active' ? `<button class="btn-primary" style="width:100%;padding:14px;margin-top:12px;" onclick="openModal('sellModal');renderPhotoSlots();onSellCategoryChange();">➕ Выставить товар</button>` : '');
+    else c.innerHTML = list.map(p => `<div class="cart-item"><div><div class="cart-item-title">${p.title}${isBoosted(p) ? ' 🚀' : ''}</div><div class="cart-item-price">${p.price} ₽</div></div>${!p.sold ? `<button class="cart-btn" style="background:var(--gold);color:#000;" onclick="openBoost(${p.id})">🚀</button>` : ''}<button class="cart-remove" onclick="deleteProduct(${p.id});setTimeout(renderProfileContent,300)">🗑</button></div>`).join('');
+  } else if (profileTab === 'purchases') {
+    const my = deals.filter(d => d.buyer_login === myProfile.nick && d.status !== 'support');
+    if (!my.length) c.innerHTML = `<div class="profile-empty"><div class="profile-empty-emoji">📥</div><div class="profile-empty-title">Нет покупок</div></div>`;
+    else c.innerHTML = my.map(d => `<div class="cart-item" onclick="openChatView(${d.id})" style="cursor:pointer;"><div><div class="cart-item-title">${d.title}</div><div class="cart-item-price">${d.price} ₽ · ${d.seller_login}</div></div></div>`).join('');
+  } else if (profileTab === 'sales') {
+    const my = deals.filter(d => d.seller_login === myProfile.nick && d.status !== 'support');
+    if (!my.length) c.innerHTML = `<div class="profile-empty"><div class="profile-empty-emoji">💵</div><div class="profile-empty-title">Нет продаж</div></div>`;
+    else c.innerHTML = my.map(d => `<div class="cart-item"><div><div class="cart-item-title">${d.title}</div><div class="cart-item-price">+${d.price - calcCommission(d.price)} ₽</div></div></div>`).join('');
+  } else if (profileTab === 'friends') {
+    const list = myProfile.friends || [];
+    if (!list.length) c.innerHTML = `<div class="profile-empty"><div class="profile-empty-emoji">👥</div><div class="profile-empty-title">Нет друзей</div></div>`;
+    else c.innerHTML = list.map(f => `<div class="cart-item" onclick="openPublicProfile('${f}')" style="cursor:pointer;"><div class="cart-item-title">${f}</div></div>`).join('');
+  } else if (profileTab === 'subs') {
+    const list = myProfile.subscriptions || [];
+    if (!list.length) c.innerHTML = `<div class="profile-empty"><div class="profile-empty-emoji">❤</div><div class="profile-empty-title">Нет подписок</div></div>`;
+    else c.innerHTML = list.map(f => `<div class="cart-item" onclick="openPublicProfile('${f}')" style="cursor:pointer;"><div class="cart-item-title">${f}</div></div>`).join('');
+  } else if (profileTab === 'blacklist') {
+    const list = myProfile.blacklist || [];
+    if (!list.length) c.innerHTML = `<div class="profile-empty"><div class="profile-empty-emoji">🚫</div><div class="profile-empty-title">ЧС пуст</div></div>`;
+    else c.innerHTML = list.map(f => `<div class="cart-item"><div class="cart-item-title">${f}</div><button class="cart-btn" onclick="toggleBlacklist('${f}')">✅</button></div>`).join('');
+  }
+}
+function openPublicProfile(login) {
+  const a = getProfileByLogin(login);
+  if (!a) return toast('Профиль не найден', 'error');
+  currentPubLogin = login;
+  pubTab = 'products';
+  showScreen('publicProfileScreen');
+  const av = document.getElementById('pubAvatar');
+  if (a.avatar && a.avatar.startsWith('data:')) av.innerHTML = `<img src="${a.avatar}">`;
+  else av.textContent = a.avatar || '😎';
+  const verif = a.verified ? ' <span class="verified-badge">✔</span>' : '';
+  document.getElementById('pubNick').innerHTML = (a.nick || login) + verif + (a.nick === SUPPORT_NICK ? ' <span style="color:var(--blue);font-size:10px;">официально</span>' : '');
+  const r = getRating(login);
+  const starsEl = document.getElementById('pubStars');
+  if (r) { const f = Math.round(r.avg); starsEl.innerHTML = `<span style="color: var(--gold);">${'★'.repeat(f)}${'☆'.repeat(5-f)}</span> <b>${r.avg}</b> <span class="count">${r.count} отзывов</span>`; }
+  else starsEl.textContent = 'Нет отзывов';
+  document.getElementById('pubJoined').textContent = 'С ' + (a.created ? new Date(a.created).toLocaleDateString('ru') : '—');
+  document.getElementById('pubServer').textContent = a.server || '—';
+  const sales = deals.filter(d => d.seller_login === login && d.status !== 'support').length;
+  const buys = deals.filter(d => d.buyer_login === login && d.status !== 'support').length;
+  document.getElementById('pubSales').textContent = sales;
+  document.getElementById('pubBuys').textContent = buys;
+  document.getElementById('pubLastSeen').textContent = a.last_seen ? new Date(a.last_seen).toLocaleString('ru') : '—';
+  const actions = document.getElementById('pubActions');
+  if (myProfile && login !== myProfile.nick && !isAdmin()) {
+    const isFriend = (myProfile.friends || []).includes(login);
+    const isSub = (myProfile.subscriptions || []).includes(login);
+    const isBL = (myProfile.blacklist || []).includes(login);
+    actions.innerHTML = `<button class="${isFriend ? 'btn-secondary' : 'btn-primary'}" onclick="toggleFriend('${login}')">${isFriend ? '✅ Друг' : '➕ В друзья'}</button><button class="${isSub ? 'btn-secondary' : 'btn-primary'}" onclick="toggleSub('${login}')">${isSub ? '✅ Подписан' : '🔔 Подписаться'}</button><button class="btn-danger" onclick="openReportModal('${login}')">⚠ Жалоба</button><button class="${isBL ? 'btn-secondary' : 'btn-danger'}" onclick="toggleBlacklist('${login}')">${isBL ? '✅ ЧС' : '🚫 В ЧС'}</button>`;
+  } else actions.innerHTML = '';
+  document.querySelectorAll('#publicProfileScreen .profile-tab').forEach((t,i) => t.classList.toggle('active', i === 0));
+  renderPubProducts();
+  document.getElementById('pubProductsGrid').style.display = 'grid';
+  document.getElementById('pubReviews').style.display = 'none';
+}
+function switchPubTab(tab, el) {
+  pubTab = tab;
+  document.querySelectorAll('#publicProfileScreen .profile-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  if (tab === 'products') { document.getElementById('pubProductsGrid').style.display = 'grid'; document.getElementById('pubReviews').style.display = 'none'; }
+  else { document.getElementById('pubProductsGrid').style.display = 'none'; document.getElementById('pubReviews').style.display = 'block'; renderPubReviews(); }
+}
+function renderPubProducts() {
+  const grid = document.getElementById('pubProductsGrid');
+  const items = products.filter(p => p.seller_login === currentPubLogin && !p.sold);
+  if (!items.length) grid.innerHTML = '<div class="empty-state"><div class="icon">📦</div><div>Товаров нет</div></div>';
+  else grid.innerHTML = items.map(p => renderCard(p)).join('');
+}
+function renderPubReviews() {
+  const c = document.getElementById('pubReviews');
+  const list = reviews.filter(r => r.to_login === currentPubLogin);
+  if (!list.length) { c.innerHTML = '<div class="empty-state"><div class="icon">⭐</div><div>Отзывов нет</div></div>'; return; }
+  c.innerHTML = list.map(r => `<div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="color:var(--gold);font-size:14px;">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div><div style="font-size:12px;margin-top:4px;">${r.text || 'Без комментария'}</div><div style="font-size:10px;color:var(--gray);margin-top:4px;">От ${r.from_login} · ${new Date(r.created).toLocaleDateString('ru')}</div></div>`).join('');
+}
+function backFromPublicProfile() {
+  if (viewFrom === 'chat') { showScreen('chatViewScreen'); renderChatView(); }
+  else { showScreen('catalogStart'); renderNewProducts(); }
+}
+async function toggleFriend(login) {
+  const list = myProfile.friends || [];
+  const i = list.indexOf(login);
+  if (i >= 0) list.splice(i, 1); else list.push(login);
+  await sb.from('profiles').update({ friends: list }).eq('id', myProfile.id);
+  myProfile.friends = list;
+  openPublicProfile(login);
+}
+async function toggleSub(login) {
+  const list = myProfile.subscriptions || [];
+  const i = list.indexOf(login);
+  if (i >= 0) list.splice(i, 1); else list.push(login);
+  await sb.from('profiles').update({ subscriptions: list }).eq('id', myProfile.id);
+  myProfile.subscriptions = list;
+  openPublicProfile(login);
+}
+async function toggleBlacklist(login) {
+  const list = myProfile.blacklist || [];
+  const i = list.indexOf(login);
+  if (i >= 0) list.splice(i, 1); else list.push(login);
+  await sb.from('profiles').update({ blacklist: list }).eq('id', myProfile.id);
+  myProfile.blacklist = list;
+  openPublicProfile(login);
+}
+function openAvatarPicker() {
+  const grid = document.getElementById('avatarGrid');
+  const avatars = ['😎','🐺','🦁','🐯','🐲','👑','💎','🔥','⚡','🚀','🦊','🐼','🐸','🎮','🎯','🌟','💀','🤖','👽','🦄','🐻','🐨','🐷','🐔','🦅','🦉'];
+  grid.innerHTML = avatars.map(a => `<div class="avatar-option ${a === myProfile.avatar ? 'selected' : ''}" onclick="setAvatar('${a}')">${a}</div>`).join('');
+  openModal('avatarModal');
+}
+async function setAvatar(a) {
+  await sb.from('profiles').update({ avatar: a }).eq('id', myProfile.id);
+  myProfile.avatar = a;
+  closeModal('avatarModal');
+  updateUI(); renderProfileContent();
+  toast('✅', 'success');
+}
+function uploadAvatar(input) {
+  const f = input.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = async e => {
+    await sb.from('profiles').update({ avatar: e.target.result }).eq('id', myProfile.id);
+    myProfile.avatar = e.target.result;
+    closeModal('avatarModal');
+    updateUI(); renderProfileContent();
+    toast('✅ Загружено', 'success');
+  };
+  r.readAsDataURL(f);
+  input.value = '';
+}
+async function changeNick() {
+  const n = prompt('Новый ник:', myProfile.nick);
+  if (!n || !n.trim()) return;
+  const newNick = n.trim();
+  if (allProfiles.some(p => p.nick === newNick && p.id !== myProfile.id)) return toast('Ник занят', 'error');
+  await sb.from('profiles').update({ nick: newNick }).eq('id', myProfile.id);
+  myProfile.nick = newNick;
+  updateUI(); renderProfileContent();
+  toast('✅ Ник изменён', 'success');
+}
+async function changeServer() {
+  const n = prompt('Сервер (1-38):', myProfile.server);
+  if (n?.trim() && +n >= 1 && +n <= 38) {
+    await sb.from('profiles').update({ server: n.trim() }).eq('id', myProfile.id);
+    myProfile.server = n.trim();
+    updateUI(); renderProfileContent();
+    toast('✅ Изменено', 'success');
+  }
+}
+function copyRefCode() {
+  if (!myProfile.ref_code) return toast('Код ещё генерируется', 'warning');
+  const url = window.location.origin + window.location.pathname + '?ref=' + myProfile.ref_code;
+  navigator.clipboard.writeText(url).then(() => toast('📋 Ссылка скопирована!', 'success'));
+}
+
+function openChats() {
+  if (!myProfile) return openAuth();
+  showScreen('chatsScreen');
+  renderChats();
+}
+async function renderChats() {
+  await refreshDeals();
+  await ensureSupportChat();
+  const list = document.getElementById('chatsList');
+  const my = deals.filter(d => d.buyer_login === myProfile.nick || d.seller_login === myProfile.nick);
+  if (!my.length) { list.innerHTML = '<div class="empty-state"><div class="icon">💬</div><div>Чатов нет</div></div>'; return; }
+  list.innerHTML = my.map(d => {
+    const other = d.buyer_login === myProfile.nick ? d.seller_login : d.buyer_login;
+    const otherAcc = getProfileByLogin(other) || {};
+    let statusTxt = '';
+    let role = '';
+    if (d.status === 'support') { statusTxt = '🛡 Официальный чат'; }
+    else {
+      statusTxt = d.status === 'active' ? (d.delivered_by_seller ? '📦 Передан' : '❄️ В заморозке') : (d.status === 'completed' ? '✅ Завершена' : (d.status === 'disputed' ? '⚠ Спор' : ''));
+      role = d.buyer_login === myProfile.nick ? '🛍 Покупка' : '💰 Продажа';
+    }
+    const av = otherAcc.avatar && otherAcc.avatar.startsWith('data:') ? `<img src="${otherAcc.avatar}">` : (otherAcc.avatar || '😎');
+    const verif = otherAcc.verified ? ' <span class="verified-badge">✔</span>' : '';
+    return `<div class="chat-list-item" onclick="openChatView(${d.id})"><div class="chat-list-avatar">${av}</div><div class="chat-list-info"><div class="chat-list-name">${otherAcc.nick || other}${verif} · <span style="color:var(--gray);font-size:10px;">${role}</span></div><div class="chat-list-msg">${d.title}${d.price > 0 ? ' · ' + d.price + ' ₽' : ''}</div><div class="chat-list-status">${statusTxt}</div></div></div>`;
+  }).join('');
+}
+async function openChatView(dealId) {
+  activeDealId = dealId;
+  showScreen('chatViewScreen');
+  await renderChatView();
+}
+async function renderChatView() {
+  await refreshDeals();
+  const d = deals.find(x => x.id === activeDealId);
+  if (!d) return backToChats();
+  const isBuyer = d.buyer_login === myProfile.nick;
+  const other = isBuyer ? d.seller_login : d.buyer_login;
+  const otherAcc = getProfileByLogin(other) || {};
+  const isSupport = d.status === 'support' || d.seller_login === SUPPORT_NICK;
+  const otherAv = otherAcc.avatar && otherAcc.avatar.startsWith('data:') ? `<img src="${otherAcc.avatar}" style="width:18px;height:18px;border-radius:50%;vertical-align:middle;">` : (otherAcc.avatar || '😎');
+  const verif = otherAcc.verified ? ' <span class="verified-badge">✔</span>' : '';
+  let header = '';
+  if (isSupport) {
+    header = `<div class="deal-header" style="background:linear-gradient(135deg,#3b82f6,#2563eb);"><div class="deal-title">🛡 Поддержка${verif}</div><div style="font-size:11px;color:rgba(255,255,255,0.9);margin-top:4px;">Официальный канал связи с администрацией</div></div>`;
+  } else {
+    let timerTxt = '';
+    if (d.status === 'active') {
+      const left = new Date(d.created).getTime() + DEAL_TIMEOUT_HOURS * 3600000 - Date.now();
+      if (left > 0) timerTxt = `⏳ Автозакрытие: ${Math.floor(left/3600000)} ч ${Math.floor((left%3600000)/60000)} мин`;
+      else timerTxt = '⏳ Закрывается...';
+    } else if (d.status === 'completed') timerTxt = '✅ Завершена';
+    else timerTxt = '⚠ Спор';
+    const statusLabel = d.status === 'active' ? '❄️ Заморозка' : (d.status === 'completed' ? '✅ Завершено' : '⚠ Спор');
+    const lastSeen = otherAcc.last_seen ? 'был(а) ' + new Date(otherAcc.last_seen).toLocaleString('ru') : '';
+    header = `<div class="deal-header"><div class="deal-title">${d.title}</div><div class="deal-price">${d.price.toLocaleString()} ₽</div><div class="deal-status">${statusLabel}</div><div class="deal-timer">${timerTxt}</div><div style="font-size:11px;color:rgba(255,255,255,0.85);margin-top:4px;cursor:pointer;" onclick="viewFrom='chat';openPublicProfile('${other}')">${isBuyer ? 'Продавец' : 'Покупатель'}: ${otherAv} ${otherAcc.nick || other}${verif} ›</div><div style="font-size:10px;color:rgba(255,255,255,0.7);margin-top:2px;">${lastSeen}</div></div>`;
+  }
+  document.getElementById('chatDealHeader').innerHTML = header;
+  const msgs = document.getElementById('chatMessages');
+  msgs.innerHTML = (d.messages || []).map(m => {
+    if (m.from === 'system') return `<div class="chat-msg sys">${m.text}</div>`;
+    const isMe = m.from === myProfile.nick;
+    let content = m.text || '';
+    if (m.img) content += `<img src="${m.img}">`;
+    const time = m.time ? new Date(m.time).toLocaleTimeString('ru', { hour:'2-digit', minute:'2-digit' }) : '';
+    return `<div class="chat-msg ${isMe ? 'me' : 'them'}">${content}<span class="msg-time">${time}</span></div>`;
+  }).join('');
+  msgs.scrollTop = msgs.scrollHeight;
+  const actions = document.getElementById('chatDealActions');
+  let html = '';
+  if (d.status === 'active') {
+    if (d.seller_login === myProfile.nick && !d.delivered_by_seller) {
+      html += `<button class="btn-success" onclick="openDataTransfer()">📤 Передать данные</button>`;
+      html += `<button class="btn-secondary" onclick="sellerDelivered()">📦 Товар передан</button>`;
+    }
+    if (d.buyer_login === myProfile.nick && d.delivered_by_seller) html += `<button class="btn-success" onclick="buyerReceived()">✅ Товар получен</button>`;
+    html += `<button class="btn-danger" onclick="raiseProblem()">⚠ Проблема</button>`;
+  }
+  actions.innerHTML = html;
+}
+function openDataTransfer() {
+  document.getElementById('transferEmail').value = '';
+  document.getElementById('transferPass').value = '';
+  document.getElementById('transferExtra').value = '';
+  openModal('dataTransferModal');
+}
+async function sendAccountData() {
+  const email = document.getElementById('transferEmail').value.trim();
+  const pass = document.getElementById('transferPass').value.trim();
+  const extra = document.getElementById('transferExtra').value.trim();
+  if (!email && !pass && !extra) return toast('Заполните данные', 'error');
+  const d = deals.find(x => x.id === activeDealId);
+  if (!d) return;
+  const lines = [];
+  if (email) lines.push(`📧 Email/Логин: ${email}`);
+  if (pass) lines.push(`🔑 Пароль: ${pass}`);
+  if (extra) lines.push(`📝 ${extra}`);
+  const text = `🔐 ДАННЫЕ АККАУНТА:\n${lines.join('\n')}`;
+  const msgs = d.messages || [];
+  msgs.push({ from: myProfile.nick, text, time: new Date().toISOString() });
+  await sb.from('deals').update({ messages: msgs }).eq('id', activeDealId);
+  closeModal('dataTransferModal');
+  toast('📤 Данные отправлены покупателю', 'success');
+  await renderChatView();
+}
+async function sendChatMessage() {
+  const inp = document.getElementById('chatInput');
+  const text = inp.value.trim();
+  if (!text && !chatImgData) return;
+  if (!activeDealId) return;
+  const d = deals.find(x => x.id === activeDealId);
+  const msgs = d.messages || [];
+  const msg = { from: myProfile.nick, text, time: new Date().toISOString() };
+  if (chatImgData) { msg.img = chatImgData; chatImgData = null; }
+  msgs.push(msg);
+  await sb.from('deals').update({ messages: msgs }).eq('id', activeDealId);
+  inp.value = '';
+  const other = d.buyer_login === myProfile.nick ? d.seller_login : d.buyer_login;
+  const otherAcc = getProfileByLogin(other);
+  if (otherAcc && otherAcc.id !== myProfile.id) {
+    await sb.from('notifications').insert({ user_id: otherAcc.id, text: `💬 Сообщение от ${myProfile.nick}` });
+  }
+  playNotifSound();
+  await renderChatView();
+}
+function onChatImg(input) {
+  const f = input.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = e => { chatImgData = e.target.result; sendChatMessage(); };
+  r.readAsDataURL(f);
+  input.value = '';
+}
+async function sellerDelivered() {
+  const d = deals.find(x => x.id === activeDealId);
+  const msgs = d.messages || [];
+  msgs.push({ from: 'system', text: '📦 Продавец передал товар. Покупатель проверяет.', time: new Date().toISOString() });
+  await sb.from('deals').update({ delivered_by_seller: true, messages: msgs }).eq('id', activeDealId);
+  const buyer = getProfileByLogin(d.buyer_login);
+  if (buyer) await sb.from('notifications').insert({ user_id: buyer.id, text: `📦 «${d.title}» передан. Проверьте и подтвердите.` });
+  await renderChatView();
+  toast('📦 Отмечено', 'success');
+}
+async function buyerReceived() {
+  const d = deals.find(x => x.id === activeDealId);
+  if (!confirm('Деньги уйдут продавцу. Товар проверен?')) return;
+  const msgs = d.messages || [];
+  msgs.push({ from: 'system', text: '✅ Покупатель подтвердил. Деньги продавцу.', time: new Date().toISOString() });
+  await sb.from('deals').update({ status: 'completed', messages: msgs }).eq('id', activeDealId);
+  const seller = getProfileByLogin(d.seller_login);
+  if (seller) {
+    const comm = calcCommission(d.price);
+    const sellerGets = d.price - comm;
+    await sb.from('profiles').update({ balance: (seller.balance || 0) + sellerGets }).eq('id', seller.id);
+    await sb.from('notifications').insert({ user_id: seller.id, text: `💰 «${d.title}» +${sellerGets} ₽` });
+    const sellerSales = deals.filter(x => x.seller_login === seller.nick && x.status === 'completed').length + 1;
+    await addAchievement(seller.id, 'first_sale');
+    if (sellerSales >= 10) await addAchievement(seller.id, '10_sales');
+    if (sellerSales >= 100) await addAchievement(seller.id, '100_sales');
+  }
+  await addAchievement(myProfile.id, 'first_buy');
+  pendingReviewOrder = { seller_login: d.seller_login, title: d.title };
+  await refreshProfiles();
+  myProfile = allProfiles.find(p => p.id === currentUser.id);
+  await renderChatView();
+  toast('✅ Завершено', 'success');
+  setTimeout(() => openReviewModal(), 500);
+}
+function openReviewModal() {
+  if (!pendingReviewOrder) return;
+  document.getElementById('reviewTarget').textContent = `Оцените продавца ${pendingReviewOrder.seller_login} за «${pendingReviewOrder.title}»`;
+  document.getElementById('reviewText').value = '';
+  openModal('reviewModal');
+}
+async function submitReview() {
+  const rating = parseInt(document.getElementById('reviewRating').value);
+  const text = document.getElementById('reviewText').value.trim();
+  const seller = getProfileByLogin(pendingReviewOrder.seller_login);
+  if (!seller) return;
+  await sb.from('reviews').insert({ from_id: myProfile.id, to_id: seller.id, from_login: myProfile.nick, to_login: seller.nick, rating, text });
+  await sb.from('notifications').insert({ user_id: seller.id, text: `⭐ Новый отзыв от ${myProfile.nick}: ${rating}★` });
+  const cnt = reviews.filter(r => r.to_login === seller.nick).length + 1;
+  if (cnt >= 5) await addAchievement(seller.id, '5_reviews');
+  closeModal('reviewModal');
+  pendingReviewOrder = null;
+  toast('✅ Спасибо за отзыв!', 'success');
+  await loadAll();
+}
+async function raiseProblem() {
+  if (!confirm('Открыть спор?')) return;
+  const d = deals.find(x => x.id === activeDealId);
+  const msgs = d.messages || [];
+  msgs.push({ from: 'system', text: '⚠ Спор открыт. Админ рассмотрит.', time: new Date().toISOString() });
+  await sb.from('deals').update({ status: 'disputed', messages: msgs }).eq('id', activeDealId);
+  const admin = allProfiles.find(p => p.nick === ADMIN_NICK);
+  if (admin) await sb.from('notifications').insert({ user_id: admin.id, text: `⚠ Спор: «${d.title}»` });
+  await renderChatView();
+  toast('Спор открыт', 'warning');
+}
+function backToChats() { showScreen('chatsScreen'); renderChats(); }
+
+function openDepositInstructions() {
+  if (!myProfile) return openAuth();
+  document.getElementById('depositSum').value = '';
+  document.getElementById('depositSenderName').value = '';
+  document.getElementById('depositComment').value = '';
+  openModal('depositModal');
+}
+function copyText(t) { navigator.clipboard.writeText(t).then(() => toast('📋 Скопировано', 'success')); }
+async function submitDeposit() {
+  const sum = parseInt(document.getElementById('depositSum').value);
+  const senderName = document.getElementById('depositSenderName').value.trim();
+  const comment = document.getElementById('depositComment').value.trim();
+  if (!sum || sum < 100) return toast('Минимум 100 ₽', 'error');
+  if (!senderName) return toast('Введите имя отправителя', 'error');
+  await sb.from('deposits').insert({ user_id: myProfile.id, user_login: myProfile.nick, sum, sender_name: senderName, comment, status: 'pending' });
+  const admin = allProfiles.find(p => p.nick === ADMIN_NICK);
+  if (admin) await sb.from('notifications').insert({ user_id: admin.id, text: `💳 Пополнение ${sum} ₽ от ${myProfile.nick}` });
+  closeModal('depositModal');
+  toast('✅ Заявка отправлена. Ожидайте до 24 часов.', 'success');
+}
+
+function openWithdrawForm() {
+  if (!myProfile) return openAuth();
+  const pending = withdraws.find(w => w.user_login === myProfile.nick && w.status === 'pending');
+  if (pending) return toast('У вас уже есть активная заявка', 'warning');
+  document.getElementById('withdrawSum').value = '';
+  document.getElementById('withdrawCard').value = '';
+  document.getElementById('withdrawName').value = '';
+  document.getElementById('withdrawCommissionInfo').style.display = 'none';
+  openModal('withdrawModal');
+}
+function updateWithdrawCommission() {
+  const sum = parseInt(document.getElementById('withdrawSum').value) || 0;
+  const info = document.getElementById('withdrawCommissionInfo');
+  if (sum < WITHDRAW_MIN) { info.style.display = 'none'; return; }
+  const fee = calcWithdrawFee(sum);
+  info.style.display = 'block';
+  info.innerHTML = `💰 Сумма: <b>${sum.toLocaleString()} ₽</b><br>💸 Комиссия (10%): <b>${fee.toLocaleString()} ₽</b><br>✅ Получите: <b style="color:var(--green);font-size:16px;">${(sum - fee).toLocaleString()} ₽</b>`;
+}
+async function submitWithdraw() {
+  const sum = parseInt(document.getElementById('withdrawSum').value);
+  const card = document.getElementById('withdrawCard').value.trim();
+  const name = document.getElementById('withdrawName').value.trim();
+  if (!sum || sum < WITHDRAW_MIN) return toast(`Минимум ${WITHDRAW_MIN} ₽`, 'error');
+  if ((myProfile.balance || 0) < sum) return toast('Недостаточно средств', 'error');
+  if (!card) return toast('Укажите карту или телефон', 'error');
+  if (!name) return toast('Введите имя получателя', 'error');
+  const fee = calcWithdrawFee(sum);
+  await sb.from('withdraws').insert({ user_id: myProfile.id, user_login: myProfile.nick, sum, fee, card, phone: '', name, status: 'pending' });
+  const admin = allProfiles.find(p => p.nick === ADMIN_NICK);
+  if (admin) await sb.from('notifications').insert({ user_id: admin.id, text: `💸 Заявка на вывод ${sum} ₽ от ${myProfile.nick}` });
+  closeModal('withdrawModal');
+  await refreshWithdraws();
+  renderPendingWithdraw();
+  toast('✅ Заявка отправлена. Ожидайте до 24 часов.', 'success');
+}
+
+function openMyNotifs() { if (!myProfile) return openAuth(); openNotifications(); }
+async function openNotifications() {
+  if (!myProfile) return openAuth();
+  await refreshNotifications();
+  selectedNotifs.clear();
+  const b = document.getElementById('notifBody');
+  if (!notifications.length) b.innerHTML = '<div class="empty-state"><div class="icon">🔔</div><div>Пусто</div></div>';
+  else b.innerHTML = notifications.map(n => `<div class="notif-item"><input type="checkbox" onchange="toggleNotifSel(${n.id}, this.checked)"><div class="text">${n.text}<div class="date">${new Date(n.created).toLocaleString('ru')}</div></div><button class="cart-btn" style="background:var(--red);color:#fff;padding:4px 8px;" onclick="deleteNotif(${n.id})">🗑</button></div>`).join('');
+  await sb.from('notifications').update({ read: true }).eq('user_id', myProfile.id).eq('read', false);
+  updateUI();
+  openModal('notifModal');
+}
+function toggleNotifSel(id, checked) { if (checked) selectedNotifs.add(id); else selectedNotifs.delete(id); }
+async function deleteNotif(id) { await sb.from('notifications').delete().eq('id', id); await refreshNotifications(); openNotifications(); }
+async function deleteSelectedNotifs() {
+  if (!selectedNotifs.size) return toast('Ничего не выбрано', 'error');
+  for (const id of selectedNotifs) await sb.from('notifications').delete().eq('id', id);
+  selectedNotifs.clear(); await refreshNotifications(); openNotifications();
+  toast('Удалено', 'success');
+}
+async function clearAllNotifs() {
+  if (!confirm('Удалить все уведомления?')) return;
+  await sb.from('notifications').delete().eq('user_id', myProfile.id);
+  await refreshNotifications(); openNotifications();
+  toast('Все удалены', 'success');
+}
+let adminTab = 'main';
+let adminSearch = '';
+function openAdmin(tab) {
+  if (!isAdmin()) return toast('Доступ запрещён', 'error');
+  adminTab = tab || 'main';
+  showScreen('adminScreen');
+  renderAdmin();
+}
+function backToProfile() { showScreen('profileScreen'); renderProfileContent(); renderPendingWithdraw(); }
+async function renderAdmin() {
+  if (!isAdmin()) return;
+  await loadAll();
+  await refreshWithdraws();
+  const c = document.getElementById('adminContent');
+  const tabs = `<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;">
+    <button class="filter-btn ${adminTab==='main'?'active':''}" onclick="openAdmin('main')">📊 Обзор</button>
+    <button class="filter-btn ${adminTab==='people'?'active':''}" onclick="openAdmin('people')">👥 Люди</button>
+    <button class="filter-btn ${adminTab==='deposits'?'active':''}" onclick="openAdmin('deposits')">💳 Пополнения</button>
+    <button class="filter-btn ${adminTab==='withdraws'?'active':''}" onclick="openAdmin('withdraws')">💸 Выводы</button>
+    <button class="filter-btn ${adminTab==='disputes'?'active':''}" onclick="openAdmin('disputes')">⚠ Споры</button>
+    <button class="filter-btn ${adminTab==='chats'?'active':''}" onclick="openAdmin('chats')">💬 Чаты</button>
+    <button class="filter-btn ${adminTab==='reports'?'active':''}" onclick="openAdmin('reports')">📩 Жалобы</button>
+    <button class="filter-btn ${adminTab==='appeals'?'active':''}" onclick="openAdmin('appeals')">📝 Апелляции</button>
+    <button class="filter-btn ${adminTab==='announce'?'active':''}" onclick="openAdmin('announce')">📢 Объявление</button>
+  </div>`;
+  let content = '';
+  if (adminTab === 'main') {
+    const pendDep = deposits.filter(r => r.status === 'pending').length;
+    const pendWith = withdraws.filter(r => r.status === 'pending').length;
+    const disp = deals.filter(d => d.status === 'disputed').length;
+    const totalUsers = allProfiles.length;
+    const totalProducts = products.length;
+    const totalSales = deals.filter(d => d.status === 'completed').length;
+    const totalMoney = allProfiles.reduce((s, p) => s + (p.balance || 0), 0);
+    content = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Игроков</div><div style="font-size:22px;font-weight:bold;">${totalUsers}</div></div>
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Товаров</div><div style="font-size:22px;font-weight:bold;">${totalProducts}</div></div>
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Завершённых сделок</div><div style="font-size:22px;font-weight:bold;">${totalSales}</div></div>
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Денег у игроков</div><div style="font-size:16px;font-weight:bold;color:var(--accent);">${totalMoney.toLocaleString()} ₽</div></div>
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Пополнения</div><div style="font-size:22px;font-weight:bold;color:var(--gold);">${pendDep}</div></div>
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Выводы</div><div style="font-size:22px;font-weight:bold;color:var(--red);">${pendWith}</div></div>
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Споры</div><div style="font-size:22px;font-weight:bold;color:var(--red);">${disp}</div></div>
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Жалобы</div><div style="font-size:22px;font-weight:bold;">${reports.length}</div></div>
+    </div>`;
+  } else if (adminTab === 'people') {
+    content = `<input type="text" placeholder="🔍 Поиск по нику/email" value="${adminSearch}" oninput="adminSearch=this.value;renderAdmin()" style="width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:10px;margin-bottom:12px;outline:none;">`;
+    const filtered = allProfiles.filter(p => !adminSearch || (p.nick||'').toLowerCase().includes(adminSearch.toLowerCase()) || (p.login||'').toLowerCase().includes(adminSearch.toLowerCase()));
+    content += filtered.map(p => {
+      const av = p.avatar && p.avatar.startsWith('data:') ? `<img src="${p.avatar}" style="width:30px;height:30px;border-radius:50%;">` : (p.avatar || '😎');
+      const isSup = p.nick === SUPPORT_NICK;
+      return `<div class="cart-item"><div style="display:flex;gap:10px;align-items:center;flex:1;cursor:pointer;" onclick="openAdminUser('${p.login}')"><div style="font-size:24px;">${av}</div><div><div class="cart-item-title">${p.nick}${p.verified?' <span class="verified-badge">✔</span>':''}${p.banned?' 🚫':''}${isSup?' 🛡':''}</div><div class="cart-item-price">${(p.balance||0).toLocaleString()} ₽</div></div></div><div style="display:flex;gap:4px;flex-wrap:wrap;"><button class="cart-btn" onclick="event.stopPropagation();openAdminUser('${p.login}')">👁</button><button class="cart-btn" onclick="event.stopPropagation();toggleVerify('${p.nick}')">${p.verified?'❌':'✅'}</button>${!isSup ? (p.banned?`<button class="cart-btn" style="background:var(--green);color:#fff;" onclick="event.stopPropagation();unbanUser('${p.nick}')">🔓</button>`:`<button class="cart-btn" style="background:var(--red);color:#fff;" onclick="event.stopPropagation();openBanModal('${p.nick}')">🚫</button>`) : ''}</div></div>`;
+    }).join('');
+  } else if (adminTab === 'deposits') {
+    const pend = deposits.filter(r => r.status === 'pending');
+    if (!pend.length) content = '<div style="color:var(--gray);padding:8px;">Нет заявок</div>';
+    else content = pend.map(r => `<div class="cart-item" style="flex-direction:column;align-items:stretch;gap:6px;"><div class="cart-item-title">${r.user_login} · ${r.sum} ₽</div><div style="font-size:11px;color:var(--text2);">От: ${r.sender_name}${r.comment?' · «'+r.comment+'»':''}</div><div style="font-size:10px;color:var(--gray);">${new Date(r.created||Date.now()).toLocaleString('ru')}</div><div style="display:flex;gap:4px;"><button class="cart-btn" style="background:var(--green);color:#fff;" onclick="approveDeposit(${r.id})">✅ Одобрить</button><button class="cart-btn" style="background:var(--red);color:#fff;" onclick="rejectDeposit(${r.id})">❌ Отклонить</button></div></div>`).join('');
+  } else if (adminTab === 'withdraws') {
+    const pend = withdraws.filter(r => r.status === 'pending');
+    if (!pend.length) content = '<div style="color:var(--gray);padding:8px;">Нет заявок</div>';
+    else content = pend.map(r => `<div class="cart-item" style="flex-direction:column;align-items:stretch;gap:6px;"><div class="cart-item-title">${r.user_login} · ${r.sum} ₽</div><div style="font-size:11px;color:var(--text2);">💳 ${r.card||'—'}<br>👤 ${r.name||'—'}</div><div class="commission-box" style="margin:8px 0;">Комиссия: <b>${r.fee} ₽</b><br>К выплате: <b>${r.sum - r.fee} ₽</b></div><div style="display:flex;gap:4px;"><button class="cart-btn" style="background:var(--green);color:#fff;" onclick="approveWithdraw(${r.id})">✅ Выплачено</button><button class="cart-btn" style="background:var(--red);color:#fff;" onclick="rejectWithdraw(${r.id})">❌ Отклонить</button></div></div>`).join('');
+  } else if (adminTab === 'disputes') {
+    const disp = deals.filter(d => d.status === 'disputed');
+    if (!disp.length) content = '<div style="color:var(--gray);padding:8px;">Нет споров</div>';
+    else content = disp.map(d => `<div class="cart-item" style="flex-direction:column;align-items:stretch;gap:6px;"><div class="cart-item-title">${d.title} · ${d.price} ₽</div><div class="cart-item-price">${d.buyer_login} ↔ ${d.seller_login}</div><div style="display:flex;gap:4px;"><button class="cart-btn" style="background:var(--blue);color:#fff;" onclick="resolveDisputeToBuyer(${d.id})">→ Покупателю</button><button class="cart-btn" style="background:var(--green);color:#fff;" onclick="resolveDisputeToSeller(${d.id})">→ Продавцу</button><button class="cart-btn" onclick="openAdminChat(${d.id})">💬</button></div></div>`).join('');
+  } else if (adminTab === 'chats') {
+    const allDeals = deals.filter(d => d.status !== 'support').slice(0, 50);
+    if (!allDeals.length) content = '<div style="color:var(--gray);padding:8px;">Нет сделок</div>';
+    else content = allDeals.map(d => `<div class="cart-item"><div><div class="cart-item-title">${d.title} · ${d.price} ₽</div><div class="cart-item-price">${d.buyer_login} ↔ ${d.seller_login} · ${d.status}</div></div><button class="cart-btn" onclick="openAdminChat(${d.id})">👁</button></div>`).join('');
+  } else if (adminTab === 'reports') {
+    if (!reports.length) content = '<div style="color:var(--gray);padding:8px;">Нет жалоб</div>';
+    else content = reports.slice().reverse().map(r => `<div class="cart-item" style="flex-direction:column;align-items:stretch;gap:6px;"><div class="cart-item-title">⚠ ${r.from_login} → ${r.to_login} (${r.type})</div><div class="cart-item-price">${r.reason}</div><div style="font-size:10px;color:var(--gray);">${new Date(r.created||Date.now()).toLocaleString('ru')}</div></div>`).join('');
+  } else if (adminTab === 'appeals') {
+    const appeals = notifications.filter(n => n.text && n.text.startsWith('📝 Апелляция'));
+    if (!appeals.length) content = '<div style="color:var(--gray);padding:8px;">Нет апелляций</div>';
+    else content = appeals.map(a => `<div class="cart-item" style="flex-direction:column;align-items:stretch;gap:6px;"><div class="cart-item-title">📝 Апелляция</div><div class="cart-item-price">${a.text}</div><div style="font-size:10px;color:var(--gray);">${new Date(a.created).toLocaleString('ru')}</div></div>`).join('');
+  } else if (adminTab === 'announce') {
+    const cur = localStorage.getItem('gm_announce_text') || '';
+    const curImg = localStorage.getItem('gm_announce_img');
+    content = `<div class="warning-box"><b>📢 Объявление на главной</b><br>Все игроки увидят текст и фото вверху каталога.<br>Оставь пустым — объявление исчезнет.</div>
+      <label style="display:block;font-size:11px;color:var(--text2);margin-bottom:4px;">Текст объявления</label>
+      <textarea id="adminAnnounceText" style="width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:10px;min-height:80px;outline:none;">${cur}</textarea>
+      <label style="display:block;font-size:11px;color:var(--text2);margin-top:10px;margin-bottom:4px;">Фото (необязательно)</label>
+      ${curImg ? `<img src="${curImg}" style="max-width:100%;border-radius:8px;margin-bottom:6px;">` : ''}
+      <input type="file" id="adminAnnounceImg" accept="image/*" style="display:none;" onchange="onAdminAnnounceImg(this)">
+      <button class="btn-secondary" style="width:100%;" onclick="document.getElementById('adminAnnounceImg').click()">📷 Загрузить фото</button>
+      <div style="display:flex;gap:6px;margin-top:12px;">
+        <button class="btn-primary" style="flex:1;" onclick="saveAdminAnnounce()">💾 Сохранить</button>
+        <button class="btn-danger" onclick="clearAdminAnnounce()">🗑 Очистить</button>
+      </div>`;
+  }
+  c.innerHTML = tabs + content;
+}
+let announceImgData = null;
+function onAdminAnnounceImg(input) {
+  const f = input.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = e => { announceImgData = e.target.result; renderAdmin(); };
+  r.readAsDataURL(f); input.value = '';
+}
+function saveAdminAnnounce() {
+  const txt = document.getElementById('adminAnnounceText').value.trim();
+  if (!txt) { localStorage.removeItem('gm_announce_text'); localStorage.removeItem('gm_announce_img'); }
+  else {
+    localStorage.setItem('gm_announce_text', txt);
+    if (announceImgData) localStorage.setItem('gm_announce_img', announceImgData);
+  }
+  renderAnnounce();
+  toast('✅ Объявление сохранено', 'success');
+  announceImgData = null;
+}
+function clearAdminAnnounce() {
+  localStorage.removeItem('gm_announce_text');
+  localStorage.removeItem('gm_announce_img');
+  announceImgData = null;
+  renderAnnounce();
+  renderAdmin();
+  toast('Очищено', 'info');
+}
+async function openAdminUser(login) {
+  const p = getProfileByLogin(login);
+  if (!p) return;
+  adminUserLogin = login;
+  const av = p.avatar && p.avatar.startsWith('data:') ? `<img src="${p.avatar}" style="width:60px;height:60px;border-radius:50%;">` : (p.avatar || '😎');
+  const userDeals = deals.filter(d => d.buyer_login === login || d.seller_login === login);
+  const userProducts = products.filter(pr => pr.seller_login === login);
+  const userReviews = reviews.filter(r => r.to_login === login);
+  const userDeposits = deposits.filter(d => d.user_login === login);
+  const userWithdraws = withdraws.filter(w => w.user_login === login);
+  document.getElementById('adminUserTitle').textContent = 'Профиль: ' + p.nick;
+  document.getElementById('adminUserBody').innerHTML = `
+    <div style="text-align:center;margin-bottom:12px;">
+      <div style="font-size:56px;">${av}</div>
+      <div style="font-size:18px;font-weight:bold;margin-top:6px;">${p.nick}${p.verified?' <span class="verified-badge">✔</span>':''}${p.banned?' 🚫':''}</div>
+      <div style="font-size:11px;color:var(--gray);">${login}</div>
+      <div style="margin-top:8px;font-size:16px;color:var(--accent);font-weight:bold;">${(p.balance||0).toLocaleString()} ₽</div>
+    </div>
+    <div class="warning-box" style="font-size:11px;">
+      <b>Инфо:</b><br>
+      Сервер: ${p.server || '—'}<br>
+      Имя: ${p.real_name || '—'}<br>
+      Регистрация: ${p.created ? new Date(p.created).toLocaleString('ru') : '—'}<br>
+      Был онлайн: ${p.last_seen ? new Date(p.last_seen).toLocaleString('ru') : '—'}<br>
+      Реф. код: ${p.ref_code || '—'}<br>
+      Пригласил: ${p.referred_by || '—'}<br>
+      Бонус рефереру: ${p.referrer_bonus_paid ? 'выплачен' : 'нет'}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;">
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Товаров</div><div style="font-size:18px;font-weight:bold;">${userProducts.length}</div></div>
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Сделок</div><div style="font-size:18px;font-weight:bold;">${userDeals.length}</div></div>
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Отзывов</div><div style="font-size:18px;font-weight:bold;">${userReviews.length}</div></div>
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Пополнений</div><div style="font-size:18px;font-weight:bold;">${userDeposits.length}</div></div>
+      <div class="cart-item" style="flex-direction:column;align-items:flex-start;"><div style="font-size:10px;color:var(--gray);">Выводов</div><div style="font-size:18px;font-weight:bold;">${userWithdraws.length}</div></div>
+    </div>
+    <div style="font-size:11px;color:var(--gray);margin-bottom:6px;">📦 Товары (последние 10)</div>
+    ${userProducts.length ? userProducts.slice(0, 10).map(pr => `<div class="cart-item"><div><div class="cart-item-title">${pr.title}</div><div class="cart-item-price">${pr.price} ₽ · ${pr.sold ? 'продано' : 'активно'}</div></div></div>`).join('') : '<div style="color:var(--gray);font-size:11px;">Нет товаров</div>'}
+    <div style="font-size:11px;color:var(--gray);margin-top:10px;margin-bottom:6px;">💬 Сделки (последние 10)</div>
+    ${userDeals.length ? userDeals.slice(0, 10).map(d => `<div class="cart-item" onclick="closeModal('adminUserModal');openAdminChat(${d.id})" style="cursor:pointer;"><div><div class="cart-item-title">${d.title}</div><div class="cart-item-price">${d.buyer_login} ↔ ${d.seller_login} · ${d.status}</div></div></div>`).join('') : '<div style="color:var(--gray);font-size:11px;">Нет сделок</div>'}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px;">
+      <button class="btn-primary" onclick="adminGiveBalance('${login}')">💰 Выдать</button>
+      <button class="btn-secondary" onclick="closeModal('adminUserModal');viewFrom='catalog';openPublicProfile('${login}')">👁 Публичный</button>
+      ${p.banned ? `<button class="btn-success" onclick="unbanUser('${login}');closeModal('adminUserModal')">🔓 Разбанить</button>` : `<button class="btn-danger" onclick="closeModal('adminUserModal');openBanModal('${login}')">🚫 Забанить</button>`}
+      <button class="btn-danger" onclick="adminDeleteUser('${login}')">🗑 Удалить</button>
+    </div>
+  `;
+  openModal('adminUserModal');
+}
+async function adminGiveBalance(login) {
+  const sum = parseInt(prompt('Сколько ₽ выдать?'));
+  if (!sum || sum <= 0) return;
+  const p = getProfileByLogin(login);
+  if (!p) return;
+  await sb.from('profiles').update({ balance: (p.balance || 0) + sum }).eq('id', p.id);
+  await sb.from('notifications').insert({ user_id: p.id, text: `💰 +${sum} ₽ от администратора` });
+  closeModal('adminUserModal');
+  await renderAdmin();
+  toast(`✅ +${sum} ₽ → ${login}`, 'success');
+}
+async function adminDeleteUser(login) {
+  if (!confirm(`Удалить профиль ${login}?`)) return;
+  const p = getProfileByLogin(login);
+  if (!p) return;
+  await sb.from('profiles').delete().eq('id', p.id);
+  closeModal('adminUserModal');
+  await renderAdmin();
+  toast('Удалён', 'info');
+}
+function openAdminChat(dealId) {
+  activeDealId = dealId;
+  closeModal('adminUserModal');
+  showScreen('chatViewScreen');
+  renderChatView();
+}
+async function toggleVerify(nick) {
+  const p = getProfileByLogin(nick);
+  if (!p) return;
+  await sb.from('profiles').update({ verified: !p.verified }).eq('id', p.id);
+  await renderAdmin();
+  toast('Готово', 'success');
+}
+function openBanModal(nick) {
+  banTargetUser = nick;
+  document.getElementById('banTarget').textContent = `Забанить ${nick}?`;
+  document.getElementById('banReason').value = '';
+  openModal('banModal');
+}
+async function confirmBan() {
+  const dur = document.getElementById('banDuration').value;
+  const reason = document.getElementById('banReason').value.trim() || 'Без причины';
+  const p = getProfileByLogin(banTargetUser);
+  if (!p) return;
+  let until;
+  if (dur === 'permanent') until = 'permanent';
+  else {
+    const map = { '5m': 5*60000, '30m': 30*60000, '1h': 3600000, '24h': 24*3600000, '7d': 7*24*3600000 };
+    until = new Date(Date.now() + (map[dur] || 3600000)).toISOString();
+  }
+  await sb.from('profiles').update({ banned: true, ban_until: until, ban_reason: reason }).eq('id', p.id);
+  await sb.from('notifications').insert({ user_id: p.id, text: `🚫 Бан: ${reason}` });
+  closeModal('banModal');
+  await renderAdmin();
+  toast('Забанен', 'success');
+}
+async function unbanUser(nick) {
+  const p = getProfileByLogin(nick);
+  if (!p) return;
+  await sb.from('profiles').update({ banned: false, ban_until: null, ban_reason: null }).eq('id', p.id);
+  await sb.from('notifications').insert({ user_id: p.id, text: `🔓 Вы разбанены` });
+  await renderAdmin();
+  toast('Разбанен', 'success');
+}
+async function approveDeposit(id) {
+  const r = deposits.find(x => x.id === id);
+  if (!r) return;
+  const p = getProfileByLogin(r.user_login);
+  if (p) {
+    await sb.from('profiles').update({ balance: (p.balance || 0) + r.sum }).eq('id', p.id);
+    await sb.from('notifications').insert({ user_id: p.id, text: `✅ Пополнение ${r.sum} ₽ одобрено` });
+    if (p.referred_by && !p.referrer_bonus_paid && r.sum >= REFERRAL_MIN_DEPOSIT) {
+      const ref = getProfileByLogin(p.referred_by);
+      if (ref && ref.nick !== p.nick) {
+        await sb.from('profiles').update({ balance: (ref.balance || 0) + REFERRAL_REFERRER_BONUS, referrer_bonus_paid: true }).eq('id', ref.id);
+        await sb.from('notifications').insert({ user_id: ref.id, text: `🎁 ${p.nick} пополнил(а) баланс. +${REFERRAL_REFERRER_BONUS}₽` });
+      }
+      await sb.from('profiles').update({ referrer_bonus_paid: true }).eq('id', p.id);
+    }
+  }
+  await sb.from('deposits').update({ status: 'approved' }).eq('id', id);
+  await renderAdmin();
+  toast(`✅ +${r.sum} ₽ → ${r.user_login}`, 'success');
+}
+async function rejectDeposit(id) {
+  const r = deposits.find(x => x.id === id);
+  await sb.from('deposits').update({ status: 'rejected' }).eq('id', id);
+  if (r) {
+    const p = getProfileByLogin(r.user_login);
+    if (p) await sb.from('notifications').insert({ user_id: p.id, text: `❌ Пополнение ${r.sum} ₽ отклонено` });
+  }
+  await renderAdmin();
+}
+async function approveWithdraw(id) {
+  const r = withdraws.find(x => x.id === id);
+  if (!r) return;
+  const p = getProfileByLogin(r.user_login);
+  if (p) {
+    await sb.from('profiles').update({ balance: Math.max(0, (p.balance || 0) - r.sum) }).eq('id', p.id);
+    await sb.from('notifications').insert({ user_id: p.id, text: `✅ Выплата ${(r.sum - r.fee).toLocaleString()} ₽ выполнена` });
+  }
+  await sb.from('withdraws').update({ status: 'approved' }).eq('id', id);
+  await renderAdmin();
+  toast(`✅ Выплачено`, 'success');
+}
+async function rejectWithdraw(id) {
+  const r = withdraws.find(x => x.id === id);
+  await sb.from('withdraws').update({ status: 'rejected' }).eq('id', id);
+  if (r) {
+    const p = getProfileByLogin(r.user_login);
+    if (p) await sb.from('notifications').insert({ user_id: p.id, text: `❌ Заявка на вывод ${r.sum} ₽ отклонена` });
+  }
+  await renderAdmin();
+}
+async function resolveDisputeToBuyer(dealId) {
+  const d = deals.find(x => x.id === dealId);
+  if (!d) return;
+  const buyer = getProfileByLogin(d.buyer_login);
+  if (buyer) {
+    await sb.from('profiles').update({ balance: (buyer.balance || 0) + d.price }).eq('id', buyer.id);
+    await sb.from('notifications').insert({ user_id: buyer.id, text: `✅ Возврат ${d.price} ₽` });
+  }
+  const msgs = d.messages || [];
+  msgs.push({ from: 'system', text: '✅ Возврат покупателю', time: new Date().toISOString() });
+  await sb.from('deals').update({ status: 'completed', messages: msgs }).eq('id', dealId);
+  await renderAdmin();
+  toast('Возврат', 'success');
+}
+async function resolveDisputeToSeller(dealId) {
+  const d = deals.find(x => x.id === dealId);
+  if (!d) return;
+  const seller = getProfileByLogin(d.seller_login);
+  const comm = calcCommission(d.price);
+  const sellerGets = d.price - comm;
+  if (seller) {
+    await sb.from('profiles').update({ balance: (seller.balance || 0) + sellerGets }).eq('id', seller.id);
+    await sb.from('notifications').insert({ user_id: seller.id, text: `✅ +${sellerGets} ₽ (спор решён в вашу пользу)` });
+  }
+  const msgs = d.messages || [];
+  msgs.push({ from: 'system', text: '✅ Перевод продавцу', time: new Date().toISOString() });
+  await sb.from('deals').update({ status: 'completed', messages: msgs }).eq('id', dealId);
+  await renderAdmin();
+  toast('Перевод', 'success');
+}
+async function checkDealTimeouts() {
+  let changed = false;
+  for (const d of deals) {
+    if (d.status !== 'active') continue;
+    const elapsedH = (Date.now() - new Date(d.created).getTime()) / 3600000;
+    if (elapsedH >= DEAL_TIMEOUT_HOURS) {
+      const msgs = d.messages || [];
+      if (!d.delivered_by_seller) {
+        const buyer = getProfileByLogin(d.buyer_login);
+        if (buyer) {
+          await sb.from('profiles').update({ balance: (buyer.balance || 0) + d.price }).eq('id', buyer.id);
+          await sb.from('notifications').insert({ user_id: buyer.id, text: `⏰ Продавец не передал «${d.title}». Возврат ${d.price} ₽` });
+        }
+        msgs.push({ from: 'system', text: '⏰ 3 дня прошло. Продавец не передал товар. Деньги возвращены покупателю.', time: new Date().toISOString() });
+      } else {
+        const seller = getProfileByLogin(d.seller_login);
+        const comm = calcCommission(d.price);
+        const sellerGets = d.price - comm;
+        if (seller) {
+          await sb.from('profiles').update({ balance: (seller.balance || 0) + sellerGets }).eq('id', seller.id);
+          await sb.from('notifications').insert({ user_id: seller.id, text: `⏰ Покупатель не подтвердил. +${sellerGets} ₽` });
+        }
+        msgs.push({ from: 'system', text: '⏰ 3 дня прошло. Покупатель не подтвердил. Деньги продавцу.', time: new Date().toISOString() });
+      }
+      await sb.from('deals').update({ status: 'completed', messages: msgs }).eq('id', d.id);
+      changed = true;
+    }
+  }
+  if (changed) { await refreshProfiles(); await refreshDeals(); }
+}
+
+function openReferral() {
+  if (!myProfile) return openAuth();
+  const code = myProfile.ref_code || '—';
+  const refs = allProfiles.filter(p => p.referred_by === myProfile.nick).length;
+  const refLink = window.location.origin + window.location.pathname + '?ref=' + code;
+  document.getElementById('referralBody').innerHTML = `
+    <div class="warning-box"><b>🎁 Пригласи друга</b><br>Отправь другу ссылку.<br>• Друг получит <b>${REFERRAL_SIGNUP_BONUS}₽</b> сразу при регистрации.<br>• Ты получишь <b>${REFERRAL_REFERRER_BONUS}₽</b> когда друг пополнит баланс от ${REFERRAL_MIN_DEPOSIT}₽ (один раз).</div>
+    <div class="login-info">
+      <div class="login-info-row"><span class="login-info-label">Твой код:</span><span class="login-info-value">${code}</span></div>
+      <div class="login-info-row"><span class="login-info-label">Приглашено:</span><span class="login-info-value">${refs}</span></div>
+    </div>
+    <button class="btn-primary" style="width:100%;margin-top:8px;" onclick="copyReferralLink()">📋 Скопировать ссылку</button>
+  `;
+  openModal('referralModal');
+}
+function copyReferralLink() {
+  const url = window.location.origin + window.location.pathname + '?ref=' + myProfile.ref_code;
+  navigator.clipboard.writeText(url).then(() => toast('📋 Ссылка скопирована!', 'success'));
+}
+function openBanAppeal() {
+  if (!myProfile) return openAuth();
+  document.getElementById('appealText').value = '';
+  openModal('appealModal');
+}
+async function sendAppeal() {
+  const txt = document.getElementById('appealText').value.trim();
+  if (!txt) return toast('Опишите ситуацию', 'error');
+  const admin = allProfiles.find(p => p.nick === ADMIN_NICK);
+  if (admin) await sb.from('notifications').insert({ user_id: admin.id, text: `📝 Апелляция от ${myProfile.nick}: ${txt}` });
+  closeModal('appealModal');
+  toast('✅ Отправлено администрации', 'success');
+}
+function openReportModal(login) {
+  reportTargetUser = login;
+  document.getElementById('reportTarget').textContent = `Жалоба на ${login}`;
+  document.getElementById('reportReason').value = '';
+  openModal('reportModal');
+}
+async function submitReport() {
+  const reason = document.getElementById('reportReason').value.trim();
+  if (!reason) return toast('Опишите причину', 'error');
+  await sb.from('reports').insert({ from_login: myProfile.nick, to_login: reportTargetUser, type: 'Профиль', reason });
+  const admin = allProfiles.find(p => p.nick === ADMIN_NICK);
+  if (admin) await sb.from('notifications').insert({ user_id: admin.id, text: `📩 Жалоба: ${myProfile.nick} → ${reportTargetUser}` });
+  closeModal('reportModal');
+  toast('Жалоба отправлена', 'success');
+}
+
+function navTo(screen, el) {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (screen === 'sell') {
+    if (!myProfile) return openAuth();
+    pendingImages = []; renderPhotoSlots(); onSellCategoryChange(); updateSellCommission();
+    openModal('sellModal');
+  } else if (screen === 'profile') openProfileScreen();
+  else if (screen === 'favorites') openFavorites();
+  else if (screen === 'chats') openChats();
+  else if (screen === 'catalog') { showScreen('catalogStart'); renderNewProducts(); }
+}
+function openHelp() { openModal('helpModal'); }
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); }));
+function toggleTheme() {
+  document.body.classList.toggle('light');
+  localStorage.setItem('gm_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+}
+if (localStorage.getItem('gm_theme') === 'light') document.body.classList.add('light');
+async function deleteAccount() {
+  if (!confirm('Удалить аккаунт?')) return;
+  await sb.from('profiles').delete().eq('id', myProfile.id);
+  await sb.auth.signOut();
+  location.reload();
+}
+function openMyProducts() { profileTab = 'products'; profileSubTab = 'active'; openProfileScreen(); }
+
+(async () => {
+  document.getElementById('loadingOverlay').style.display = 'flex';
+  await checkSession();
+  await refreshProfiles();
+  await ensureSupportProfile();
+  document.getElementById('loadingOverlay').style.display = 'none';
+  document.getElementById('mainHeader').style.display = '';
+  if (currentUser && myProfile) {
+    await loadAll();
+    await refreshNotifications();
+    await refreshWithdraws();
+    await ensureMyReferralCode();
+    await ensureSupportChat();
+    renderAnnounce();
+    showScreen('catalogStart');
+    updateUI();
+    renderServerSelect();
+    renderNewProducts();
+    await sb.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', myProfile.id);
+    setInterval(async () => { if (myProfile) await sb.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', myProfile.id); }, 60000);
+    setInterval(async () => {
+      await refreshNotifications(); await refreshDeals(); updateUI(); checkDealTimeouts();
+    }, 30000);
+    const urlParams = new URLSearchParams(window.location.search);
+    const prodId = urlParams.get('product');
+    if (prodId) setTimeout(() => viewProduct(parseInt(prodId)), 800);
+  } else {
+    renderAnnounce();
+    showScreen('catalogStart');
+    updateUI();
+    renderServerSelect();
+    renderNewProducts();
+    setTimeout(() => openAuth(), 300);
+  }
+})();
+</script>
+</body>
+</html>
